@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     public GameObject itemEquipped;
 
     public GameObject fishingRod;
+    
+    public Transform handTransform; // Assign in Inspector
+    private GameObject equippedItem;
+    
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -46,7 +51,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Trying to Use an Item");
             // IUsable itemToUse = fishingRod.GetComponent<IUsable>();
             // itemToUse.UseObject();
+            TryPickUp();
         }
+        
     }
 
     // public void ChangeItemEquipped()
@@ -85,4 +92,51 @@ public class PlayerController : MonoBehaviour
             playerMovement.UnlockLookingAround();
         }
     }
+    
+    // pickups
+    void TryPickUp()
+    {
+        Collider[] items = Physics.OverlapSphere(transform.position, 2f);
+        foreach (var item in items)
+        {
+            if (item.CompareTag("PickUp"))
+            {
+                PickUp(item.gameObject);
+                return;
+            }
+        }
+    }
+
+    void PickUp(GameObject item)
+    {
+        equippedItem = item;
+        equippedItem.transform.SetParent(handTransform);
+        equippedItem.transform.localPosition = Vector3.zero;
+        equippedItem.transform.localRotation = Quaternion.identity;
+    
+        Rigidbody rb = equippedItem.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+        
+    }
+    
+    void Drop(GameObject item)
+    {
+        item = null;
+        equippedItem = item;
+        equippedItem.transform.SetParent(handTransform);
+        equippedItem.transform.localPosition = Vector3.zero;
+        equippedItem.transform.localRotation = Quaternion.identity;
+    
+        Rigidbody rb = equippedItem.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+        
+    }
+
+
 }
