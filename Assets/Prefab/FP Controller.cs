@@ -335,7 +335,7 @@ public class FPController : MonoBehaviour
 
         #region Pickup
 
-// Gets input and calls pickup method
+// Gets input and calls pickup method and if the player cant pickup anything it will try to see if the player can interact with anything.
         if (Input.GetKeyDown(pickupKey))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -345,6 +345,14 @@ public class FPController : MonoBehaviour
                 if (pickupable != null)
                 {
                     pickupable.Pickup(playerHandTransform);
+                }
+            }
+            if (Physics.Raycast(ray, out RaycastHit hit2, 2f))
+            {
+                IInteractable interactable = hit2.collider.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
                 }
             }
         }
