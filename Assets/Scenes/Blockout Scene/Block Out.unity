@@ -5298,7 +5298,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 312845319854254810, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 9.83
       objectReference: {fileID: 0}
     - target: {fileID: 312845319854254810, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5306,7 +5306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 312845319854254810, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.81
       objectReference: {fileID: 0}
     - target: {fileID: 312845319854254810, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5339,6 +5339,46 @@ PrefabInstance:
     - target: {fileID: 3666132636354012813, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: fov
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: bobSpeed
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: sprintFOV
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: walkSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: enableJump
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: bobAmount.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: sprintSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: enableCrouch
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: sprintCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415447103129921928, guid: f1c48f72521c27a4b8998b89e5f605d5, type: 3}
+      propertyPath: sprintDuration
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
