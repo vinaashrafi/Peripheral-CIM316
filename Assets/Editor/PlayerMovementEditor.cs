@@ -225,7 +225,30 @@ public class PlayerMovementEditor : Editor
         EditorGUILayout.Space();
 
         #endregion
+        
+        #region Pickup
 
+        GUILayout.Label("Pickup",
+            new GUIStyle(GUI.skin.label)
+                { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 },
+            GUILayout.ExpandWidth(true));
+
+        fpc.pickupKey =
+            (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Pickup Key", "Determines what key is used to pick up objects."),
+                fpc.pickupKey);
+
+        fpc.pickupRange =
+            EditorGUILayout.Slider(new GUIContent("Pickup Range", "How far the player can reach to pick up objects."),
+                fpc.pickupRange, 0.5f, 5f);
+
+        fpc.playerHandTransform =
+            (Transform)EditorGUILayout.ObjectField(new GUIContent("Player Hand Transform", "The transform where picked-up items will be held."),
+                fpc.playerHandTransform, typeof(Transform), true);
+
+        EditorGUILayout.Space();
+
+        #endregion
+        
         #region Jump
 
         GUILayout.Label("Jump",
