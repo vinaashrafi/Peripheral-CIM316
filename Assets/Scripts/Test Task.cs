@@ -12,18 +12,14 @@ public class TestTask : TaskBase
       
      
    }
-
-  /* public void OnGUI()
-   {
-      if (GUILayout.Button("Task update"))
-      {
-         taskStarted = true;
-         taskCounter++;
-      }
-   }*/
+   
   public void Update()
   {
-     uiTaskText.text = taskText;
-     taskText = ($"{gameObject.name} 3/{taskCounter}");
+     if (uiTaskText == true)
+     {
+        uiTaskText.text = taskText;
+        taskText = ($"{gameObject.name} 3/{taskCounter}");
+     }
+     
   }
 }

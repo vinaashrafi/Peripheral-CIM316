@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering.Universal;
@@ -6,15 +7,22 @@ using UnityEngine.Rendering.Universal;
 public class UITaskManager : MonoBehaviour
 {
     public TextMeshProUGUI taskTexts;
-    public TaskBase[] tasksList;
+    public List<GameObject> taskList;
     public TaskBase tasks;
 
-    public delegate void TextSpawner(string taskText);
-  
-    public event TextSpawner TextSpawner_Event;
-
-    public void TextTaskSpawner()
+    public void OnEnable()
     {
-        
+        tasks.TextSpawner_Event += TaskManagerOnTextSpawner_Event;
+    }
+
+    private void TaskManagerOnTextSpawner_Event(GameObject uiText)
+    {
+       uiText.SetActive(true);
+    }
+
+
+    public void OnDisable()
+    {
+        tasks.TextSpawner_Event -= TaskManagerOnTextSpawner_Event;
     }
 }

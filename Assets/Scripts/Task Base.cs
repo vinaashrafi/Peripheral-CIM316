@@ -21,26 +21,12 @@ public class TaskBase : MonoBehaviour
 
   public TextMeshProUGUI uiTaskText;
 
+  public delegate void TextSpawner(GameObject task);
   
-  
- 
-  
-  
-
+  public event TextSpawner TextSpawner_Event;
 
   public void OnEnable()
   {
-    taskManager.TextSpawner_Event += TaskManagerOnTextSpawner_Event;
-  }
-
-  private void TaskManagerOnTextSpawner_Event(string tasktext)
-  {
-    throw new NotImplementedException();
-  }
-
-
-  public void OnDisable()
-  {
-    taskManager.TextSpawner_Event -= TaskManagerOnTextSpawner_Event;
+      TextSpawner_Event?.Invoke(gameObject);
   }
 }
