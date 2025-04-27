@@ -42,16 +42,19 @@ public class PowerManager : MonoBehaviour
     }
     #endregion
     
-    public void PowerShutdown(circut[] PowerCircuts)
+    public void PowerShutdown()
     {
-        foreach (var Powerable in PowerCircuts)
+        for (int i = 0; i < powerCircuts.Length; i++)
         {
-          //  Powerable.circutPowerables;
+            ChangeBreakerState(i,false);
         }
     }
-
-    public void PowerOn()
+    public void ChangeBreakerState(int breakerIndex, bool isOn)
     {
-        
+        foreach (var Lights in powerCircuts[breakerIndex].circutPowerables)
+        {
+            Lights.HasPower = isOn;
+            Lights.UpdateLight();
+        }
     }
 }
