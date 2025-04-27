@@ -5,6 +5,16 @@ public class FPController : MonoBehaviour
 {
     private Rigidbody rb;
 
+    // to do with chores
+
+    [SerializeField] public bool holdToCompleteChore = true;
+    [SerializeField] public bool enableChores = true;
+
+    private ChoreBase currentChore = null;
+    
+    // private IChoreable currentChore = null;
+
+
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -90,8 +100,8 @@ public class FPController : MonoBehaviour
     private bool isGrounded = false;
 
     #endregion
-    
-    
+
+
     #region Pickup
 
     public KeyCode pickupKey = KeyCode.E;
@@ -334,8 +344,9 @@ public class FPController : MonoBehaviour
         #endregion
 
         #region Pickup
+        
 
-// Gets input and calls pickup method and if the player cant pickup anything it will try to see if the player can interact with anything.
+        // Gets input and calls pickup method and if the player can't pickup anything it will try to see if the player can interact with anything.
         if (Input.GetKeyDown(pickupKey))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -345,15 +356,44 @@ public class FPController : MonoBehaviour
                 if (pickupable != null)
                 {
                     pickupable.Pickup(playerHandTransform);
+                    return;
                 }
-            }
-            if (Physics.Raycast(ray, out RaycastHit hit2, 2f))
-            {
-                IInteractable interactable = hit2.collider.GetComponent<IInteractable>();
+
+                if (enableChores) // <- Only check for chores if enabled
+                {
+                    IChoreable chore = hit.collider.GetComponent<IChoreable>(); // Detect the choreable object
+                    if (chore != null && currentChore == null) // Start the chore if none is active
+                    {
+                        currentChore = chore as ChoreBase;
+                        currentChore.StartChore();
+
+                        if (!holdToCompleteChore)
+                        {
+                            // If hold not required, immediately clear the chore reference
+                            currentChore = null;
+                        }
+
+                        return;
+                    }
+                }
+
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
                     interactable.Interact();
+                    return;
                 }
+            }
+            
+        }
+        
+        // Handling "hold to continue chore" separately!
+        if (holdToCompleteChore && currentChore != null)
+        {
+            if (Input.GetKeyUp(pickupKey))
+            {
+                currentChore.StopChore();
+                currentChore = null;
             }
         }
 
@@ -559,6 +599,4 @@ public class FPController : MonoBehaviour
                 Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
     }
-
-
 }

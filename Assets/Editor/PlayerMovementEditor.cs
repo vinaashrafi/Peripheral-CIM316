@@ -19,7 +19,7 @@ public class PlayerMovementEditor : Editor
     {
         SerFPC.Update();
 
-        
+
         EditorGUILayout.Space();
 
         #region Camera Setup
@@ -225,7 +225,7 @@ public class PlayerMovementEditor : Editor
         EditorGUILayout.Space();
 
         #endregion
-        
+
         #region Pickup
 
         GUILayout.Label("Pickup",
@@ -234,7 +234,8 @@ public class PlayerMovementEditor : Editor
             GUILayout.ExpandWidth(true));
 
         fpc.pickupKey =
-            (KeyCode)EditorGUILayout.EnumPopup(new GUIContent("Pickup Key", "Determines what key is used to pick up objects."),
+            (KeyCode)EditorGUILayout.EnumPopup(
+                new GUIContent("Pickup Key", "Determines what key is used to pick up objects."),
                 fpc.pickupKey);
 
         fpc.pickupRange =
@@ -242,13 +243,46 @@ public class PlayerMovementEditor : Editor
                 fpc.pickupRange, 0.5f, 5f);
 
         fpc.playerHandTransform =
-            (Transform)EditorGUILayout.ObjectField(new GUIContent("Player Hand Transform", "The transform where picked-up items will be held."),
+            (Transform)EditorGUILayout.ObjectField(
+                new GUIContent("Player Hand Transform", "The transform where picked-up items will be held."),
                 fpc.playerHandTransform, typeof(Transform), true);
 
         EditorGUILayout.Space();
 
         #endregion
-        
+
+        #region Chores
+
+        GUILayout.Label("Chores",
+            new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                fontStyle = FontStyle.Bold,
+                fontSize = 13
+            },
+            GUILayout.ExpandWidth(true));
+
+        // Toggle to enable/disable Chore interaction
+        fpc.enableChores = EditorGUILayout.ToggleLeft(
+            new GUIContent("Enable Chores", "Determines if the player can interact with chores."),
+            fpc.enableChores
+        );
+
+        GUI.enabled = fpc.enableChores;
+
+        // Toggle for Hold To Complete or Tap To Complete
+        fpc.holdToCompleteChore = EditorGUILayout.ToggleLeft(
+            new GUIContent("Hold To Complete Chores",
+                "If enabled, the player must hold the interaction key to complete a chore. Otherwise, just tapping will work."),
+            fpc.holdToCompleteChore
+        );
+
+        GUI.enabled = true;
+
+        EditorGUILayout.Space();
+
+        #endregion
+
         #region Jump
 
         GUILayout.Label("Jump",
