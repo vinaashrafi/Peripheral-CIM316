@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public abstract class ChoreBase : MonoBehaviour, IChoreable
+public abstract class ChoreBase : MonoBehaviour, IChoreable, IInteractable
 {
     public static event Action<ChoreBase> OnChoreCompleted; // Event for when a chore is completed
 
@@ -40,5 +40,10 @@ public abstract class ChoreBase : MonoBehaviour, IChoreable
         isWorking = false;
         OnChoreCompleted?.Invoke(this);
         Debug.Log($"{gameObject.name} chore completed!");
+    }
+
+    public void Interact()
+    {
+        StartChore();
     }
 }
