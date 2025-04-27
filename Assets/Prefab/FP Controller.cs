@@ -6,9 +6,13 @@ public class FPController : MonoBehaviour
     private Rigidbody rb;
 
     // to do with chores
-    private IChoreable currentChore = null;
+
     [SerializeField] public bool holdToCompleteChore = true;
     [SerializeField] public bool enableChores = true;
+
+    private ChoreBase currentChore = null;
+    
+    // private IChoreable currentChore = null;
 
 
     #region Camera Movement Variables
@@ -340,6 +344,7 @@ public class FPController : MonoBehaviour
         #endregion
 
         #region Pickup
+        
 
         // Gets input and calls pickup method and if the player can't pickup anything it will try to see if the player can interact with anything.
         if (Input.GetKeyDown(pickupKey))
@@ -356,10 +361,10 @@ public class FPController : MonoBehaviour
 
                 if (enableChores) // <- Only check for chores if enabled
                 {
-                    IChoreable chore = hit.collider.GetComponent<IChoreable>();
-                    if (chore != null)
+                    IChoreable chore = hit.collider.GetComponent<IChoreable>(); // Detect the choreable object
+                    if (chore != null && currentChore == null) // Start the chore if none is active
                     {
-                        currentChore = chore;
+                        currentChore = chore as ChoreBase;
                         currentChore.StartChore();
 
                         if (!holdToCompleteChore)
@@ -379,8 +384,9 @@ public class FPController : MonoBehaviour
                     return;
                 }
             }
+            
         }
-
+        
         // Handling "hold to continue chore" separately!
         if (holdToCompleteChore && currentChore != null)
         {
