@@ -3,39 +3,24 @@ using UnityEngine.UI;  // For using the UI Slider
 
 public class ChoreProgressBar : MonoBehaviour
 {
-    [SerializeField] private Slider progressSlider;  // Drag the slider from the scene
-    [SerializeField] private ChoreBase chore;  // Reference to the chore object
+    [SerializeField] private Slider progressSlider;
+    [SerializeField] private ChoreBase chore;
 
-    // private void OnEnable()
-    // {
-    //     // Subscribe to the progress update event if a chore is assigned
-    //     if (chore != null)
-    //     {
-    //         chore.OnChoreProgress += UpdateProgressBar;
-    //     }
-    // }
-    //
-    // private void OnDisable()
-    // {
-    //     if (chore != null)
-    //     {
-    //         chore.OnChoreProgress -= UpdateProgressBar;
-    //     }
-    // }
-
-    // Update the progress bar based on the current progress
-    private void UpdateProgressBar(float progress)
+    private void Awake()
     {
         if (progressSlider != null)
-        {
-            progressSlider.value = progress; // Set the slider value
-        }
+            progressSlider.gameObject.SetActive(false); // start hidden
     }
+
     public void SetChore(ChoreBase newChore)
     {
+        // Unsubscribe from old chore
         if (chore != null)
         {
             chore.OnChoreProgress -= UpdateProgressBar;
+            chore.OnChoreStarted -= ShowSlider;
+            chore.OnChoreStopped -= HideSlider;
+            chore.OnChoreCompleted -= HideSlider;
         }
 
         chore = newChore;
@@ -43,6 +28,30 @@ public class ChoreProgressBar : MonoBehaviour
         if (chore != null)
         {
             chore.OnChoreProgress += UpdateProgressBar;
+            chore.OnChoreStarted += ShowSlider;
+            chore.OnChoreStopped += HideSlider;
+            chore.OnChoreCompleted += HideSlider;
         }
+    }
+
+    private void ShowSlider()
+    {
+        if (progressSlider != null)
+        {
+            progressSlider.value = 0f;
+            progressSlider.gameObject.SetActive(true);
+        }
+    }
+
+    private void HideSlider()
+    {
+        if (progressSlider != null)
+            progressSlider.gameObject.SetActive(false);
+    }
+
+    private void UpdateProgressBar(float progress)
+    {
+        if (progressSlider != null)
+            progressSlider.value = progress;
     }
 }
