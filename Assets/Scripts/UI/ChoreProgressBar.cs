@@ -12,27 +12,32 @@ public class ChoreProgressBar : MonoBehaviour
             progressSlider.gameObject.SetActive(false); // start hidden
     }
 
-    public void SetChore(ChoreBase newChore)
+public void SetChore(ChoreBase newChore)
+{
+    if (chore != null)
     {
-        // Unsubscribe from old chore
-        if (chore != null)
-        {
-            chore.OnChoreProgress -= UpdateProgressBar;
-            chore.OnChoreStarted -= ShowSlider;
-            chore.OnChoreStopped -= HideSlider;
-            chore.OnChoreCompleted -= HideSlider;
-        }
+        chore.OnChoreProgress -= UpdateProgressBar;
+        chore.OnChoreStarted -= ShowSlider;
+        chore.OnChoreStopped -= HideSlider;
+        chore.OnChoreCompleted -= HideSlider;
+    }
 
-        chore = newChore;
+    chore = newChore;
 
-        if (chore != null)
+    if (chore != null)
+    {
+        chore.OnChoreProgress += UpdateProgressBar;
+        chore.OnChoreStarted += ShowSlider;
+        chore.OnChoreStopped += HideSlider;
+        chore.OnChoreCompleted += HideSlider;
+
+        // ✅ If it's already running, show the slider immediately
+        if (chore.IsChoreActive())
         {
-            chore.OnChoreProgress += UpdateProgressBar;
-            chore.OnChoreStarted += ShowSlider;
-            chore.OnChoreStopped += HideSlider;
-            chore.OnChoreCompleted += HideSlider;
+            ShowSlider();
         }
     }
+}
 
     private void ShowSlider()
     {
