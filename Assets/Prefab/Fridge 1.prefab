@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -6914668662956032260, guid: f2b85a44da62f8e48a4d27976e190171, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: eecaa3198cbebd74e8cd79d0f71765cc, type: 2}
+      objectReference: {fileID: 2100000, guid: 3441f6441092d3c459a48c3c48ea63c6, type: 2}
     - target: {fileID: -6914668662956032260, guid: f2b85a44da62f8e48a4d27976e190171, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
@@ -79,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 4927429977786813293, guid: f2b85a44da62f8e48a4d27976e190171, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: eecaa3198cbebd74e8cd79d0f71765cc, type: 2}
+      objectReference: {fileID: 2100000, guid: 3441f6441092d3c459a48c3c48ea63c6, type: 2}
     - target: {fileID: 5652247741957399901, guid: f2b85a44da62f8e48a4d27976e190171, type: 3}
       propertyPath: m_Name
       value: View
@@ -144,7 +144,7 @@ MonoBehaviour:
   useRightDoor: 1
   openAngleY: 160
   rotateDuration: 1.5
-  autoReturnTime: 120
+  autoReturnTime: 15
 --- !u!1 &2971215692907281062 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 717366944141737119, guid: f2b85a44da62f8e48a4d27976e190171, type: 3}
@@ -170,7 +170,7 @@ MonoBehaviour:
   useRightDoor: 0
   openAngleY: 160
   rotateDuration: 1.5
-  autoReturnTime: 120
+  autoReturnTime: 30
 --- !u!4 &7301830805589956665 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4208004794531406336, guid: f2b85a44da62f8e48a4d27976e190171, type: 3}
