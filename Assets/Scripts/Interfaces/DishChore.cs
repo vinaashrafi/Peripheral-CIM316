@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DishChore : ChoreBase
 {
-    protected override void CompleteChore()
+    public override void CompleteChore()
     {
         base.CompleteChore();
         // Custom logic for dishes
