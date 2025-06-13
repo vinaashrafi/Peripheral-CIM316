@@ -399,4 +399,4 @@ MonoBehaviour:
   slideOppositeDirection: 0
   slideDistance: 0.7
   slideDuration: 5
-  autoReturnTime: 120
+  autoReturnTime: 30
