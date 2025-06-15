@@ -340,12 +340,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3981143579516168343, guid: e55f9835d6c94f24a8319c69eee0037d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4643416842049016107, guid: e55f9835d6c94f24a8319c69eee0037d, type: 3}
       propertyPath: m_Name
       value: Pig Orc
       objectReference: {fileID: 0}
     - target: {fileID: 4643416842049016107, guid: e55f9835d6c94f24a8319c69eee0037d, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6513985403906425503, guid: e55f9835d6c94f24a8319c69eee0037d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7288833180165732010, guid: e55f9835d6c94f24a8319c69eee0037d, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -920,6 +932,10 @@ PrefabInstance:
     - target: {fileID: 2554720417436106229, guid: 076879464bd682945aa7cd31ae139a36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3208109144441526060, guid: 076879464bd682945aa7cd31ae139a36, type: 3}
+      propertyPath: sprintStartDistance
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

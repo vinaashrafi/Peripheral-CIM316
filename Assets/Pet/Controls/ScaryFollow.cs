@@ -68,6 +68,8 @@ public class ScaryFollow : MonoBehaviour
                     currentSpeed = 0f;
                     agent.speed = 0f;
                     agent.ResetPath();
+                    
+                    Debug.Log("Agent has reached stop distance. Stopping movement.");
                     // animator.Play("Idle");
                 }
             }
