@@ -26,7 +26,7 @@ public class PowerManager : MonoBehaviour
     }
     public void TurnOffSpecificBreaker(circut specificPowerCircut)
     {
-        Debug.Log("I am turning offf");
+        //ebug.Log("I am turning offf");
         foreach (var Powerable in specificPowerCircut.circutPowerables)
         {
             Powerable.TurnoffLight();
@@ -34,7 +34,7 @@ public class PowerManager : MonoBehaviour
     }
     public void TurnOnSpecificBreaker(circut specificPowerCircut)
     {
-        Debug.Log("I am turning onnn");
+        //Debug.Log("I am turning onnn");
         foreach (var Powerable in specificPowerCircut.circutPowerables)
         {
             Powerable.TurnonLight();

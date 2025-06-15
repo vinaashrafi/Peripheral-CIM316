@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class GenericPickUpBase : MonoBehaviour, IPickupable
+public class Item : MonoBehaviour, IPickupable
 {
-    //inherit from this class, to use this script
+    public ItemScriptable itemScriptable;
+    public GameObject itemVisuals;
     public void Pickup(Transform handTransform)
     {
         transform.SetParent(handTransform);
@@ -10,6 +11,12 @@ public class GenericPickUpBase : MonoBehaviour, IPickupable
         transform.localRotation = Quaternion.identity;
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Collider>().isTrigger = true;
-        // Maybe disable collider, or trigger "held" animation
+        PickupItem(itemScriptable);
     }
+
+    public void PickupItem(ItemScriptable thisItemsScriptableObject)
+    {
+        InventoryManager.Current.AddItem(thisItemsScriptableObject, gameObject);
+    }
+    
 }
