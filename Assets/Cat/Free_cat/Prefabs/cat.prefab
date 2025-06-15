@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 4424111538260070728}
   m_Layer: 0
   m_Name: cat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -259,7 +259,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5638677933591201314}
@@ -374,9 +374,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionRadius: 20
   baseAccelerationRate: 2
-  maxSpeed: 5
-  stopDistance: 3
-  sprintStartDistance: 13
+  maxSpeed: 2.6
+  stopDistance: 6
+  sprintStartDistance: 15
   animator: {fileID: 5619985934887145615}
   currentSpeed: 0
   wasPlayerDetected: 0
