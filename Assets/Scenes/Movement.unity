@@ -196,6 +196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f67b261b3d8994d830690cdbaece8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdToCompleteChore: 1
+  enableChores: 1
   playerCamera: {fileID: 1932406875}
   fov: 60
   invertCamera: 0
@@ -231,6 +233,9 @@ MonoBehaviour:
   enableJump: 1
   jumpKey: 32
   jumpPower: 5
+  pickupKey: 101
+  pickupRange: 2
+  playerHandTransform: {fileID: 0}
   enableCrouch: 1
   holdToCrouch: 1
   crouchKey: 306
