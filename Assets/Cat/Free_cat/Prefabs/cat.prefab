@@ -376,7 +376,7 @@ MonoBehaviour:
   baseAccelerationRate: 2
   maxSpeed: 2.6
   stopDistance: 6
-  sprintStartDistance: 15
+  sprintStartDistance: 12
   animator: {fileID: 5619985934887145615}
   currentSpeed: 0
   wasPlayerDetected: 0
