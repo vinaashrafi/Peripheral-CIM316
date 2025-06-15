@@ -51,4 +51,9 @@ public class BinChore : ChoreBase
             animator.SetTrigger(closeTrigger);
         }
     }
+
+    public void TurnOffCollider()
+    {
+        GetComponent<Collider>().enabled = false;
+    }
 }

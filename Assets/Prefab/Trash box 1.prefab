@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1699201314191808557}
   - component: {fileID: 914996363838259451}
   - component: {fileID: 7226963182577729261}
+  - component: {fileID: 7145374921671078622}
   m_Layer: 0
   m_Name: Trash bag 1
   m_TagString: Untagged
@@ -29,13 +30,13 @@ Transform:
   m_GameObject: {fileID: 1574460080027364924}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.6, y: 0.536, z: -1.08}
+  m_LocalPosition: {x: -0.30654526, y: -0.78411686, z: 0.32286072}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5781038330042759943}
   - {fileID: 716052038575184467}
-  m_Father: {fileID: 8201782764017057878}
+  m_Father: {fileID: 5292463400956553230}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &3351129884514869437
 LODGroup:
@@ -132,6 +133,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7145374921671078622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574460080027364924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1fb7736f1c26949acbaefe32b46555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemScriptable: {fileID: 0}
 --- !u!1 &2395305224039326799
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +318,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5350060466372296956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5292463400956553230}
+  m_Layer: 0
+  m_Name: TrashBag Item
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5292463400956553230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350060466372296956}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.906546, y: 1.3201169, z: -1.4028609}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 318968359579928190}
+  m_Father: {fileID: 8201782764017057878}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5657906972665650622
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,7 +556,7 @@ Transform:
   m_Children:
   - {fileID: 3670736617818960164}
   - {fileID: 5703951992517254086}
-  - {fileID: 318968359579928190}
+  - {fileID: 5292463400956553230}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2771640807270075927
@@ -547,9 +593,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e3c21e142ee4a419195e3d59e74778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToComplete: 5
+  timeToComplete: 3
+  currentProgress: 0
+  isWorking: 0
   animator: {fileID: 2771640807270075927}
-  activationBool: IsOn
+  openTrigger: OpenBin
+  closeTrigger: CloseBin
+  isBinOpen: 0
 --- !u!65 &2131349037590501627
 BoxCollider:
   m_ObjectHideFlags: 0
