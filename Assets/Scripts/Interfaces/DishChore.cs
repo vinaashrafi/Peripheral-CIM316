@@ -7,5 +7,6 @@ public class DishChore : ChoreBase
         base.CompleteChore();
         // Custom logic for dishes
         Destroy(gameObject); // Dish disappears
+        Debug.Log("dish Chore Completed");
     }
 }
