@@ -121,9 +121,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66be30cd47c3cf47aa63cf1a72ff29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToComplete: 1
+  currentProgress: 0
+  isWorking: 0
   slideOppositeDirection: 1
   slideDistance: 0.7
   slideDuration: 5
+  autoReturnTime: 20
 --- !u!1 &6993824566951207235
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c66be30cd47c3cf47aa63cf1a72ff29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToComplete: 1
+  currentProgress: 0
+  isWorking: 0
   slideOppositeDirection: 0
   slideDistance: 0.7
   slideDuration: 5
+  autoReturnTime: 30

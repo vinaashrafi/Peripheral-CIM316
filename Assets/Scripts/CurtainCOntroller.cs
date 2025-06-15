@@ -2,12 +2,12 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class CurtainCOntroller : MonoBehaviour, IInteractable
+public class CurtainCOntroller : ChoreBase
 {
     public bool slideOppositeDirection = false; // If true, slides backward (-Z)
     public float slideDistance = 1f;
     public float slideDuration = 2f;
-    public float autoReturnTime = 120f; // 2 in-game minutes in seconds
+    public float autoReturnTime = 120f; // 2 minutes
 
     private Vector3 closedPosition;
     private Vector3 openPosition;
@@ -21,13 +21,30 @@ public class CurtainCOntroller : MonoBehaviour, IInteractable
         openPosition = closedPosition + direction * slideDistance;
     }
 
-    public void Interact()
+    // Override Interact to call base StartChore (which starts progress)
+    public override void Interact()
     {
+        base.Interact();  // calls StartChore()
+
+        // If there's an auto-return coroutine running, stop it so curtain won't auto close during new chore
+        if (autoReturnCoroutine != null)
+        {
+            StopCoroutine(autoReturnCoroutine);
+            autoReturnCoroutine = null;
+        }
+    }
+
+    // Override CompleteChore to toggle curtain once chore time is done
+    public override void CompleteChore()
+    {
+        base.CompleteChore();
+
         ToggleCurtain();
 
-        // Restart auto-return timer
+        // Restart auto-return timer after sliding
         if (autoReturnCoroutine != null)
             StopCoroutine(autoReturnCoroutine);
+
         autoReturnCoroutine = StartCoroutine(AutoReturnAfterDelay());
     }
 
@@ -44,9 +61,6 @@ public class CurtainCOntroller : MonoBehaviour, IInteractable
         Debug.Log($"{gameObject.name} sliding to {targetPosition}");
     }
 
-    
-    //reverts curtain back to original position 
-    // Auto-moving curtains create a subtle loss of control and uncertainty, making the player question reality and heightening feelings of paranoia.
     private IEnumerator AutoReturnAfterDelay()
     {
         yield return new WaitForSeconds(autoReturnTime);
