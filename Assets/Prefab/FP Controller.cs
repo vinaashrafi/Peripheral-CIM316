@@ -358,31 +358,68 @@ public class FPController : MonoBehaviour
                     pickupable.Pickup(playerHandTransform);
                     return;
                 }
-
-                if (enableChores) // <- Only check for chores if enabled
+                if (enableChores)
                 {
                     IChoreable chore = target.GetComponent<IChoreable>(); // Detect the choreable object
                     if (chore != null && currentChore == null) // Start the chore if none is active
                     {
-                        currentChore = chore as ChoreBase;
-                        currentChore.StartChore();
-
-                        if (!holdToCompleteChore)
+                        ChoreBase chore = interactable as ChoreBase;
+                        if (chore != null)
                         {
-                            // If hold not required, immediately clear the chore reference
-                            currentChore = null;
-                        }
+                            currentChore = chore;
+                            currentChore.StartChore();
 
-                        return;
+                            // Here you also assign it to the progress bar
+                            ChoreProgressBar progressBar = FindObjectOfType<ChoreProgressBar>();
+                            if (progressBar != null)
+                            {
+                                progressBar.SetChore(currentChore);
+                            }
+
+                            if (!holdToCompleteChore)
+                            {
+                                currentChore = null;
+                            }
+
+                            return;
+                        }
+                        else
+                        {
+                            interactable.Interact();
+                            return;
+                        }
                     }
                 }
-
                 IInteractable interactable = target.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
                     interactable.Interact();
                     return;
                 }
+                // if (enableChores) // <- Only check for chores if enabled
+                // {
+                //     IChoreable chore = hit.collider.GetComponent<IChoreable>(); // Detect the choreable object
+                //     if (chore != null && currentChore == null) // Start the chore if none is active
+                //     {
+                //         currentChore = chore as ChoreBase;
+                //         currentChore.StartChore();
+                //
+                //         if (!holdToCompleteChore)
+                //         {
+                //             // If hold not required, immediately clear the chore reference
+                //             currentChore = null;
+                //         }
+                //
+                //         return;
+                //     }
+                // }
+
+                // IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                // if (interactable != null)
+                // {
+                //     interactable.Interact();
+                //     return;
+                // }
             }
             
         }

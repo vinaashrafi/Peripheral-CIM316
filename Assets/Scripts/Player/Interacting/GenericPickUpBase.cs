@@ -9,6 +9,7 @@ public class GenericPickUpBase : MonoBehaviour, IPickupable
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         GetComponent<Rigidbody>().isKinematic = true;
+        GetComponent<Collider>().isTrigger = true;
         // Maybe disable collider, or trigger "held" animation
     }
 }

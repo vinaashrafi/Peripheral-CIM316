@@ -1,22 +1,28 @@
 using System;
 using UnityEngine;
 
-public abstract class ChoreBase : MonoBehaviour, IChoreable
+public abstract class ChoreBase : MonoBehaviour, IChoreable, IInteractable
 {
-    public static event Action<ChoreBase> OnChoreCompleted; // Event for when a chore is completed
+    public float timeToComplete = 3f;
+    public float currentProgress = 0f;
+    public bool isWorking = false;
 
-    [SerializeField] protected float timeToComplete = 3f; // Time to complete the chore
-    protected float currentProgress = 0f; // Progress tracker
-    protected bool isWorking = false; // Whether the chore is ongoing
+    public event Action<float> OnChoreProgress;
+    public event Action OnChoreStarted;
+    public event Action OnChoreStopped;
+    public event Action OnChoreCompleted;
 
-    public event Action<float> OnChoreProgress; // Event to report progress
+    public bool IsChoreActive()
+    {
+        return isWorking;
+    }
 
-    protected virtual void Update()
+    void Update()
     {
         if (isWorking)
         {
             currentProgress += Time.deltaTime;
-            OnChoreProgress?.Invoke(currentProgress / timeToComplete); // Normalize progress (0-1)
+            OnChoreProgress?.Invoke(currentProgress / timeToComplete);
 
             if (currentProgress >= timeToComplete)
             {
@@ -27,18 +33,27 @@ public abstract class ChoreBase : MonoBehaviour, IChoreable
 
     public virtual void StartChore()
     {
+        if (isWorking) return;
+
         isWorking = true;
+        currentProgress = 0f;
+        OnChoreStarted?.Invoke();
     }
 
     public virtual void StopChore()
     {
         isWorking = false;
+        OnChoreStopped?.Invoke();
     }
 
-    protected virtual void CompleteChore()
+    public virtual void CompleteChore()
     {
         isWorking = false;
-        OnChoreCompleted?.Invoke(this);
-        Debug.Log($"{gameObject.name} chore completed!");
+        OnChoreCompleted?.Invoke();
+    }
+
+    public virtual void  Interact()
+    {
+        StartChore();
     }
 }
