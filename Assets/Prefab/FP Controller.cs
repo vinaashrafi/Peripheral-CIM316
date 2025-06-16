@@ -349,10 +349,10 @@ public class FPController : MonoBehaviour
         // Gets input and calls pickup method and if the player can't pickup anything it will try to see if the player can interact with anything.
         if (Input.GetKeyDown(pickupKey))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+            GameObject target = RayCastFromCamera();
+            if (target)
             {
-                IPickupable pickupable = hit.collider.GetComponent<IPickupable>();
+                IPickupable pickupable = target.GetComponent<IPickupable>();
                 if (pickupable != null)
                 {
                     pickupable.Pickup(playerHandTransform);
@@ -360,8 +360,8 @@ public class FPController : MonoBehaviour
                 }
                 if (enableChores)
                 {
-                    IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                    if (interactable != null)
+                    IChoreable chore = target.GetComponent<IChoreable>(); // Detect the choreable object
+                    if (chore != null && currentChore == null) // Start the chore if none is active
                     {
                         ChoreBase chore = interactable as ChoreBase;
                         if (chore != null)
@@ -389,6 +389,12 @@ public class FPController : MonoBehaviour
                             return;
                         }
                     }
+                }
+                IInteractable interactable = target.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
+                    return;
                 }
                 // if (enableChores) // <- Only check for chores if enabled
                 // {
@@ -629,5 +635,17 @@ public class FPController : MonoBehaviour
                 Mathf.Lerp(joint.localPosition.y, jointOriginalPos.y, Time.deltaTime * bobSpeed),
                 Mathf.Lerp(joint.localPosition.z, jointOriginalPos.z, Time.deltaTime * bobSpeed));
         }
+    }
+
+    public GameObject RayCastFromCamera()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+        {
+            GameObject target = hit.collider.gameObject;
+            return target;
+        }
+
+        return null;
     }
 }
