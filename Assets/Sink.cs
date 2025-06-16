@@ -2,19 +2,27 @@ using UnityEngine;
 
 public class Sink : ChoreBase
 {
-    [SerializeField] private GameObject sinkObjectToToggle;
-    
-    private bool isSinkOn = false;
+    [SerializeField] private GameObject sinkWaterToggle;      // Visual water stream
+    [SerializeField] private GameObject sinkBubbles;      // GameObject holding particle system
+
+    public static bool IsSinkOn { get; private set; } = false;
 
     public override void CompleteChore()
     {
         base.CompleteChore();
 
-        isSinkOn = !isSinkOn; // Flip the state
-        if (sinkObjectToToggle != null)
-            sinkObjectToToggle.SetActive(isSinkOn);
+        IsSinkOn = !IsSinkOn; // Flip sink state
+
+        // Toggle water visual
+        if (sinkWaterToggle != null)
+            sinkWaterToggle.SetActive(IsSinkOn);
+
+        // Toggle particle GameObject
+        if (sinkBubbles != null)
+            sinkBubbles.SetActive(IsSinkOn);
+
+        Debug.Log("Sink is now " + (IsSinkOn ? "ON" : "OFF"));
     }
-    
     
 
     // public override void StartChore()

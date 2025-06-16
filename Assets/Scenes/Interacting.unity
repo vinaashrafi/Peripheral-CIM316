@@ -254,7 +254,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 205675079}
+  IsLighton: 0
   savedPower: 0
+  HasPower: 1
 --- !u!1 &216225474
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +671,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 733985266}
+  IsLighton: 0
   savedPower: 0
+  HasPower: 1
 --- !u!1 &770365153
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,7 +809,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 770365156}
+  IsLighton: 0
   savedPower: 0
+  HasPower: 1
 --- !u!1 &1391773083
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +947,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 1391773085}
+  IsLighton: 0
   savedPower: 0
+  HasPower: 1
 --- !u!1 &1417523242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1393,7 +1401,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 1817143750}
+  IsLighton: 0
   savedPower: 0
+  HasPower: 1
 --- !u!1 &1848496811
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,7 +1755,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 2108926928}
+  IsLighton: 0
   savedPower: 0
+  HasPower: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

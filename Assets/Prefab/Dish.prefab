@@ -100,7 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778a42759c5a2c241b3e553808dbac98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToComplete: 6
+  timeToComplete: 10
+  currentProgress: 0
+  isWorking: 0
+  baseWashTime: 10
 --- !u!65 &5315995507215117207
 BoxCollider:
   m_ObjectHideFlags: 0
