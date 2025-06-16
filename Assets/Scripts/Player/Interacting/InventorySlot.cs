@@ -62,8 +62,15 @@ public class InventorySlot : MonoBehaviour
     */
     public PickupItem ReturnItemInSlot()
     {
-        PickupItem currentItem = GetComponentInChildren<PickupItem>();
-        return currentItem;
+        if (GetComponentInChildren<PickupItem>() != null)
+        {
+            PickupItem item = GetComponentInChildren<PickupItem>();
+            return item;
+        }
+        else
+        {
+            return null;
+        }
     }
     
 }

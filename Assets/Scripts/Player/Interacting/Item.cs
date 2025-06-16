@@ -6,6 +6,7 @@ public class Item : MonoBehaviour, IPickupable
     public GameObject itemVisuals;
     public void Pickup(Transform handTransform)
     {
+        if(InventoryManager.Current.IsInventoryFull())return;
         transform.SetParent(handTransform);
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;

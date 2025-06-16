@@ -87,16 +87,29 @@ public class InventoryManager : MonoBehaviour
        //ChangedSlotEvent();
     }
 
-    public void UpdatedSelectedSlot()
+    public void UpdatedSelectedSlot(InventorySlot SlotToUpdate)
     {
-        //ChangedSlotEvent();
+        if (SlotToUpdate != inventorySlots[selectedSlot])
+        {
+            SlotToUpdate.Deselect();
+        }
     }
 
     public delegate void ChangeSlotAction();
     public static event ChangeSlotAction ChangedSlotEvent;
-    public GameObject ReturnItemEquiped()
+    public PickupItem ReturnItemEquiped()
     {
         PickupItem item = inventorySlots[selectedSlot].ReturnItemInSlot();
+        if (item == null)
+        {
+            Debug.Log("Trying to update the equipped Item but there was no child on the selected slot, or something went wrong you big fucking NONCE!");
+            return null;
+        }
+        return item;
+    }
+    public GameObject ReturnItemFromNumber(int number)
+    {
+        PickupItem item = inventorySlots[number].ReturnItemInSlot();
         if (item == null)
         {
             Debug.Log("Trying to update the equipped Item but there was no child on the selected slot, or something went wrong you big fucking NONCE!");
@@ -106,28 +119,30 @@ public class InventoryManager : MonoBehaviour
     }
     public void AddItem(ItemScriptable item, GameObject itemObject)
     {
-        GameObject itemGameObject = ReturnItemEquiped();
-        if (itemGameObject == null)
+        PickupItem itemInSlot = ReturnItemEquiped();
+        if (itemInSlot == null)
         {
             SpawnNewItem(item, inventorySlots[selectedSlot], itemObject);
             return;
         }
+        
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             InventorySlot slot = inventorySlots[i];
-            PickupItem itemInSlot = slot.GetComponentInChildren<PickupItem>();
-            if (itemInSlot != null && itemInSlot.item == item && itemInSlot.count < stackMax)
+            PickupItem SameItemInAnotherSlot = ReturnItemEquiped();
+            if (SameItemInAnotherSlot != null && SameItemInAnotherSlot.item == item && SameItemInAnotherSlot.count < stackMax)
             {
                 itemInSlot.count++;
                 itemInSlot.RefreshCount();
                 return;
             }
         }
+        
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             InventorySlot slot = inventorySlots[i];
-            PickupItem itemInSlot = slot.GetComponentInChildren<PickupItem>();
-            if (itemInSlot == null)
+            PickupItem itemInNewSlot = slot.ReturnItemInSlot();
+            if (itemInNewSlot == null)
             {
                 SpawnNewItem(item, slot, itemObject);
                 return;
@@ -141,7 +156,19 @@ public class InventoryManager : MonoBehaviour
         PickupItem invItem = newItemGo.GetComponent<PickupItem>();
         invItem.InitialiseItem(item);
         invItem.GetComponent<PickupItem>().itemObject = itemObject;
-        UpdatedSelectedSlot();
+        UpdatedSelectedSlot(slot);
+    }
+
+    public bool IsInventoryFull()
+    {
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            if (inventorySlots[i].ReturnItemInSlot() == null)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void OpenInv()

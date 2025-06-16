@@ -352,6 +352,12 @@ public class FPController : MonoBehaviour
             GameObject target = RayCastFromCamera();
             if (target)
             {
+                IInteractable interactable = target.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
+                    return;
+                }
                 IPickupable pickupable = target.GetComponent<IPickupable>();
                 if (pickupable != null)
                 {
@@ -360,41 +366,33 @@ public class FPController : MonoBehaviour
                 }
                 if (enableChores)
                 {
-                    IChoreable chore = target.GetComponent<IChoreable>(); // Detect the choreable object
-                    if (chore != null && currentChore == null) // Start the chore if none is active
+                    IChoreable targetChore = target.GetComponent<IChoreable>(); // Detect the choreable object
+                    if (targetChore != null && currentChore == null) // Start the chore if none is active
                     {
-                        ChoreBase chore = interactable as ChoreBase;
-                        if (chore != null)
+                        ChoreBase chore = targetChore as ChoreBase;
+                        currentChore = chore;
+                        currentChore.StartChore();
+
+                        // Here you also assign it to the progress bar
+                        ChoreProgressBar progressBar = FindObjectOfType<ChoreProgressBar>();
+                        if (progressBar != null)
                         {
-                            currentChore = chore;
-                            currentChore.StartChore();
-
-                            // Here you also assign it to the progress bar
-                            ChoreProgressBar progressBar = FindObjectOfType<ChoreProgressBar>();
-                            if (progressBar != null)
-                            {
-                                progressBar.SetChore(currentChore);
-                            }
-
-                            if (!holdToCompleteChore)
-                            {
-                                currentChore = null;
-                            }
-
-                            return;
+                            progressBar.SetChore(currentChore);
                         }
-                        else
+
+                        if (!holdToCompleteChore)
                         {
-                            interactable.Interact();
-                            return;
+                            currentChore = null;
                         }
+
+                        return;
                     }
-                }
-                IInteractable interactable = target.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    interactable.Interact();
-                    return;
+                    else
+                    {
+                        interactable.Interact();
+                        return;
+                    }
+                    
                 }
                 // if (enableChores) // <- Only check for chores if enabled
                 // {
