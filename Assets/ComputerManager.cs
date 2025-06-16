@@ -2,15 +2,23 @@ using UnityEngine;
 
 public class ComputerManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private static ComputerManager _current;
+    public static ComputerManager Current { get { return _current; } }
+
+    private void Awake()
     {
-        
+        if (_current != null && _current != this)
+        {
+            Destroy(this.gameObject);
+        } else {
+            _current = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public GameObject[] ComputerWindows;
+    public void OpenComputerWindow(int NumberWindow)
     {
-        
+        ComputerWindows[NumberWindow].SetActive(true);
     }
 }

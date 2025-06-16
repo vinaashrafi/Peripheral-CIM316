@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8421152614689712613}
   - component: {fileID: 5022000575954278606}
   - component: {fileID: 2036771734778360565}
+  - component: {fileID: 1443434526795196174}
   m_Layer: 5
   m_Name: ComputerIconSlot
   m_TagString: Untagged
@@ -75,3 +76,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1443434526795196174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2593631642195899908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ecf62054a122049b962563e0eee8bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
