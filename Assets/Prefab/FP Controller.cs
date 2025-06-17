@@ -9,9 +9,11 @@ public class FPController : MonoBehaviour
 
     [SerializeField] public bool holdToCompleteChore = true;
     [SerializeField] public bool enableChores = true;
+    private ChoreProgressBar progressBar;
+
 
     private ChoreBase currentChore = null;
-    
+
     // private IChoreable currentChore = null;
 
 
@@ -109,6 +111,11 @@ public class FPController : MonoBehaviour
     public Transform playerHandTransform;
 
     #endregion
+    
+    #region Drop
+    public KeyCode dropKey = KeyCode.Q;
+    public GameObject heldItem;
+    #endregion
 
     #region Crouch
 
@@ -159,6 +166,8 @@ public class FPController : MonoBehaviour
 
     void Start()
     {
+        progressBar = FindObjectOfType<ChoreProgressBar>();
+
         if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
@@ -344,7 +353,6 @@ public class FPController : MonoBehaviour
         #endregion
 
         #region Pickup
-        
 
         // Gets input and calls pickup method and if the player can't pickup anything it will try to see if the player can interact with anything.
         if (Input.GetKeyDown(pickupKey))
@@ -352,48 +360,51 @@ public class FPController : MonoBehaviour
             GameObject target = RayCastFromCamera();
             if (target)
             {
+                // --- Prioritize chores ---
+                if (enableChores && currentChore == null)
+                {
+                    IChoreable targetChore = target.GetComponent<IChoreable>();
+                    if (targetChore != null)
+                    {
+                        ChoreBase chore = targetChore as ChoreBase;
+                        if (chore != null)
+                        {
+                            currentChore = chore;
+                            currentChore.StartChore();
+
+                            if (progressBar != null)
+                            {
+                                progressBar.SetChore(currentChore);
+                                Debug.Log("CHORE STARTED → SLIDER SET");
+                            }
+
+                            if (!holdToCompleteChore)
+                            {
+                                currentChore = null;
+                            }
+
+                            return; // ✅ Done — don't fall through
+                        }
+                    }
+                }
+
+                // --- If not a chore, check if it's an interactable ---
                 IInteractable interactable = target.GetComponent<IInteractable>();
                 if (interactable != null)
                 {
                     interactable.Interact();
                     return;
                 }
+
+                // --- Then check for pickups ---
                 IPickupable pickupable = target.GetComponent<IPickupable>();
                 if (pickupable != null)
                 {
                     pickupable.Pickup(playerHandTransform);
+                    heldItem = target; // <— store it
                     return;
                 }
-                if (enableChores)
-                {
-                    IChoreable targetChore = target.GetComponent<IChoreable>(); // Detect the choreable object
-                    if (targetChore != null && currentChore == null) // Start the chore if none is active
-                    {
-                        ChoreBase chore = targetChore as ChoreBase;
-                        currentChore = chore;
-                        currentChore.StartChore();
-
-                        // Here you also assign it to the progress bar
-                        ChoreProgressBar progressBar = FindObjectOfType<ChoreProgressBar>();
-                        if (progressBar != null)
-                        {
-                            progressBar.SetChore(currentChore);
-                        }
-
-                        if (!holdToCompleteChore)
-                        {
-                            currentChore = null;
-                        }
-
-                        return;
-                    }
-                    else
-                    {
-                        interactable.Interact();
-                        return;
-                    }
-                    
-                }
+                
                 // if (enableChores) // <- Only check for chores if enabled
                 // {
                 //     IChoreable chore = hit.collider.GetComponent<IChoreable>(); // Detect the choreable object
@@ -419,9 +430,8 @@ public class FPController : MonoBehaviour
                 //     return;
                 // }
             }
-            
         }
-        
+
         // Handling "hold to continue chore" separately!
         if (holdToCompleteChore && currentChore != null)
         {
@@ -433,6 +443,25 @@ public class FPController : MonoBehaviour
         }
 
         #endregion
+        
+        
+        #region Drop
+        if (Input.GetKeyDown(dropKey))
+        {
+            // Throw/drop currently held item if there is one
+            if (heldItem != null)
+            {
+                IPickupable pickupable = heldItem.GetComponent<IPickupable>();
+                if (pickupable != null)
+                {
+                    pickupable.Drop(playerHandTransform);
+                    heldItem = null;
+                }
+            }
+            
+        }
+        #endregion
+        
 
         #region Crouch
 

@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class GenericPickUpBase : MonoBehaviour, IPickupable
+public class GenericPickUpBase : MonoBehaviour
 {
     //inherit from this class, to use this script
-    public void Pickup(Transform handTransform)
-    {
-        transform.SetParent(handTransform);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        GetComponent<Rigidbody>().isKinematic = true;
-        GetComponent<Collider>().isTrigger = true;
-        // Maybe disable collider, or trigger "held" animation
-    }
+    // public void Pickup(Transform handTransform)
+    // {
+    //     transform.SetParent(handTransform);
+    //     transform.localPosition = Vector3.zero;
+    //     transform.localRotation = Quaternion.identity;
+    //     GetComponent<Rigidbody>().isKinematic = true;
+    //     GetComponent<Collider>().isTrigger = true;
+    //     // Maybe disable collider, or trigger "held" animation
+    // }
 }
