@@ -71,6 +71,13 @@ public class computer : ChoreBase
         // Enable tutorial canvas if assigned
         if (tutorialCanvas != null)
             tutorialCanvas.gameObject.SetActive(true);
+        
+        if (playerController != null)
+        {
+            playerController.DisableInput();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         if (cctvCameras.Length == 0)
         {
