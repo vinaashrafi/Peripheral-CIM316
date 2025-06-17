@@ -1,39 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class computer : ChoreBase
 {
-    [SerializeField] private Camera[] cctvCameras; // Assign 3 cameras in Inspector
+    [SerializeField] private Camera[] cctvCameras;
+    [SerializeField] private Canvas computerCanvas;
+
     private int currentCameraIndex = 0;
     private bool isViewingCCTV = false;
-    private Canvas[] allCanvases;
+    private FPController playerController;
+
+    private void Start()
+    {
+        playerController = FindObjectOfType<FPController>();
+    }
 
     public override void StartChore()
     {
         base.StartChore();
 
-        if (cctvCameras.Length == 0)
+        if (computerCanvas != null)
+            computerCanvas.gameObject.SetActive(true);
+
+        if (playerController != null)
         {
-            Debug.LogWarning("No CCTV cameras assigned!");
-            return;
+            playerController.DisableInput();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
-        
-        
-        // 🔻 Disable all canvases (except world-space ones if needed)
-        allCanvases = FindObjectsOfType<Canvas>();
-        foreach (Canvas canvas in allCanvases)
-        {
-            canvas.enabled = false;
-        }
-        
-        isViewingCCTV = true;
-        currentCameraIndex = 0;
-        ActivateCamera(currentCameraIndex);
-        
-        
-        
-        
-        Debug.Log("Started viewing CCTV.");
+
+        Debug.Log("Started computer chore. Canvas enabled.");
     }
 
     public override void StopChore()
@@ -63,43 +60,55 @@ public class computer : ChoreBase
         }
     }
 
+    public void OnCameraSelected(int index)
+    {
+        if (index < 0 || index >= cctvCameras.Length)
+        {
+            Debug.LogWarning("Invalid camera index.");
+            return;
+        }
+
+        currentCameraIndex = index;
+        isViewingCCTV = true;
+
+        if (computerCanvas != null)
+            computerCanvas.enabled = false;
+
+        ActivateCamera(currentCameraIndex);
+        Debug.Log("Viewing camera index: " + index);
+    }
+
+    public void ExitCCTVView()
+    {
+        isViewingCCTV = false;
+
+        foreach (Camera cam in cctvCameras)
+            cam.gameObject.SetActive(false);
+
+        if (computerCanvas != null)
+            computerCanvas.gameObject.SetActive(false);
+
+        if (playerController != null)
+        {
+            playerController.EnableInput();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        Debug.Log("Exited CCTV view.");
+    }
+
     private void SwitchCamera(int direction)
     {
         cctvCameras[currentCameraIndex].gameObject.SetActive(false);
 
-        currentCameraIndex += direction;
-        if (currentCameraIndex >= cctvCameras.Length) currentCameraIndex = 0;
-        if (currentCameraIndex < 0) currentCameraIndex = cctvCameras.Length - 1;
-
+        currentCameraIndex = (currentCameraIndex + direction + cctvCameras.Length) % cctvCameras.Length;
         ActivateCamera(currentCameraIndex);
-        Debug.Log("Switched to CCTV camera: " + currentCameraIndex);
     }
 
     private void ActivateCamera(int index)
     {
         for (int i = 0; i < cctvCameras.Length; i++)
-        {
             cctvCameras[i].gameObject.SetActive(i == index);
-        }
-    }
-
-    private void ExitCCTVView()
-    {
-        isViewingCCTV = false;
-        foreach (var cam in cctvCameras)
-        {
-            cam.gameObject.SetActive(false);
-        }
-        Debug.Log("Exited CCTV view.");
-        
-        
-        // 🔺 Re-enable all canvases
-        if (allCanvases != null)
-        {
-            foreach (Canvas canvas in allCanvases)
-            {
-                canvas.enabled = true;
-            }
-        }
     }
 }
