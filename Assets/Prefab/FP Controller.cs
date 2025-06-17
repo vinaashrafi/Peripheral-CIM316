@@ -675,4 +675,18 @@ public class FPController : MonoBehaviour
 
         return null;
     }
+    
+    
+    // for computer 
+    public void DisableInput()
+    {
+        playerCanMove = false;
+        cameraCanMove = false;
+    }
+
+    public void EnableInput()
+    {
+        playerCanMove = true;
+        cameraCanMove = true;
+    }
 }
