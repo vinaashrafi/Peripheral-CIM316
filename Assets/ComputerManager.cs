@@ -25,19 +25,19 @@ public class ComputerManager : MonoBehaviour
     //   
     // }
     
-    public void OpenComputerWindow(int NumberWindow)
+    public void OpenComputerWindow(int numberWindow)
     {
-        if (NumberWindow < 0 || NumberWindow >= ComputerWindows.Length)
+        if (numberWindow < 0 || numberWindow >= ComputerWindows.Length)
         {
             Debug.LogWarning("Invalid window index.");
             return;
         }
 
-        ComputerWindows[NumberWindow].SetActive(true);
-        SetWindowIndexAsCurrentWindow(NumberWindow);
+        ComputerWindows[numberWindow].SetActive(true);
+        SetWindowIndexAsCurrentWindow(numberWindow);
 
-   
-        if (NumberWindow >= ComputerWindows.Length - 3)
+        // Only activate the computer logic if it's window index 2
+        if (numberWindow == 2)
         {
             if (computerScript != null)
             {
@@ -50,7 +50,6 @@ public class ComputerManager : MonoBehaviour
             }
         }
     }
-    
     
     
 
