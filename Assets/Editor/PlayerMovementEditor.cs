@@ -251,6 +251,33 @@ public class PlayerMovementEditor : Editor
 
         #endregion
 
+        #region Drop
+
+        GUILayout.Label("Drop",
+            new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                fontStyle = FontStyle.Bold,
+                fontSize = 13
+            },
+            GUILayout.ExpandWidth(true));
+
+// Drop Key
+        fpc.dropKey = (KeyCode)EditorGUILayout.EnumPopup(
+            new GUIContent("Drop Key", "Determines what key is used to drop the currently held item."),
+            fpc.dropKey);
+
+// Show current held item (read-only)
+        EditorGUI.BeginDisabledGroup(true);
+        EditorGUILayout.ObjectField(
+            new GUIContent("Held Item", "The item currently held by the player (read-only)."),
+            fpc.heldItem, typeof(GameObject), true);
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUILayout.Space();
+
+        #endregion
+
         #region Chores
 
         GUILayout.Label("Chores",

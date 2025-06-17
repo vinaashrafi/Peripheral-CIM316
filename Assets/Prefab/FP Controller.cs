@@ -111,6 +111,11 @@ public class FPController : MonoBehaviour
     public Transform playerHandTransform;
 
     #endregion
+    
+    #region Drop
+    public KeyCode dropKey = KeyCode.Q;
+    public GameObject heldItem;
+    #endregion
 
     #region Crouch
 
@@ -396,6 +401,7 @@ public class FPController : MonoBehaviour
                 if (pickupable != null)
                 {
                     pickupable.Pickup(playerHandTransform);
+                    heldItem = target; // <— store it
                     return;
                 }
                 
@@ -437,6 +443,25 @@ public class FPController : MonoBehaviour
         }
 
         #endregion
+        
+        
+        #region Drop
+        if (Input.GetKeyDown(dropKey))
+        {
+            // Throw/drop currently held item if there is one
+            if (heldItem != null)
+            {
+                IPickupable pickupable = heldItem.GetComponent<IPickupable>();
+                if (pickupable != null)
+                {
+                    pickupable.Drop(playerHandTransform);
+                    heldItem = null;
+                }
+            }
+            
+        }
+        #endregion
+        
 
         #region Crouch
 
