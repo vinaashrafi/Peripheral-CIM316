@@ -43,13 +43,15 @@ public class computer : ChoreBase
     // Exits the computer, disables cameras and UI, and re-enables player controls
     public void ExitComputer()
     {
+        Debug.Log("exited computer funtion called has been triggerecd, exiting computer");
         isViewingCCTV = false;
-
-        foreach (var cam in cctvCameras)
-            cam.gameObject.SetActive(false);
-
+        
         if (computerCanvas != null)
             computerCanvas.gameObject.SetActive(false);
+        
+        foreach (var cam in cctvCameras)
+            cam.gameObject.SetActive(false);
+        
 
         if (playerController != null)
         {
@@ -71,6 +73,13 @@ public class computer : ChoreBase
         // Enable tutorial canvas if assigned
         if (tutorialCanvas != null)
             tutorialCanvas.gameObject.SetActive(true);
+        
+        if (playerController != null)
+        {
+            playerController.DisableInput();
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         if (cctvCameras.Length == 0)
         {
@@ -87,11 +96,15 @@ public class computer : ChoreBase
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Z)) // its a button for now, but we want it ot be on the screen for the compouter, so u can only log off from the desktop. 
+            ExitComputer();
+        
         if (!isViewingCCTV)
             return;
 
         HandleCameraCycleInput();
         HandleExitInput();
+        
     }
 
     // Handles input for cycling through cameras
@@ -120,6 +133,8 @@ public class computer : ChoreBase
                 tutorialCanvas.gameObject.SetActive(false);
         }
     }
+    
+
 
     // Switches to a different camera index
     private void SwitchCamera(int direction)
