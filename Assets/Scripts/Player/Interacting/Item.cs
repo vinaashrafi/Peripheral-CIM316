@@ -18,7 +18,7 @@ public class Item : MonoBehaviour, IPickupable
 
     public void Drop(Transform handTransform)
     {
-        InventoryManager.Current.RemoveItem(itemScriptable);
+        InventoryManager.Current.RemoveItem();
         // Detach from hand
         transform.SetParent(null);
         // Reactivate physics

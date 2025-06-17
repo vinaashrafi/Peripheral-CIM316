@@ -401,7 +401,6 @@ public class FPController : MonoBehaviour
                 if (pickupable != null)
                 {
                     pickupable.Pickup(playerHandTransform);
-                    heldItem = target; // <— store it
                     return;
                 }
                 
@@ -448,6 +447,7 @@ public class FPController : MonoBehaviour
         #region Drop
         if (Input.GetKeyDown(dropKey))
         {
+            heldItem = InventoryManager.Current.ReturnSelectedItemInInventory();
             // Throw/drop currently held item if there is one
             if (heldItem != null)
             {

@@ -72,5 +72,4 @@ public class InventorySlot : MonoBehaviour
             return null;
         }
     }
-    
 }
