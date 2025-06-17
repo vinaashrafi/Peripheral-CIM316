@@ -149,29 +149,12 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-    public void RemoveItem(ItemScriptable itemToRemove)
+    public void RemoveItem()
     {
-        for (int i = 0; i < inventorySlots.Length; i++)
-        {
-            InventorySlot slot = inventorySlots[i];
-            PickupItem pickup = slot.ReturnItemInSlot();
-
-            if (pickup != null && pickup.item == itemToRemove)
-            {
-                if (pickup.count > 1)
-                {
-                    // Reduce stack count and update UI
-                    pickup.count--;
-                    pickup.RefreshCount();
-                }
-                else
-                {
-                    // Remove the item completely from the slot
-                    slot.ClearSlot(); // Clear visuals + destroy the pickup item UI object
-                }
-                return; // Stop after removing one instance
-            }
-        }
+        Debug.Log("Did you kill yourself yet?");
+        // Remove the item completely from the slot
+        inventorySlots[selectedSlot].ReturnItemInSlot().Killyourself(); // Clear visuals + destroy the pickup item UI object
+        // Stop after removing one instance
     }
     
     
@@ -196,6 +179,12 @@ public class InventoryManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public GameObject ReturnSelectedItemInInventory()
+    {
+        GameObject o = inventorySlots[selectedSlot].ReturnItemInSlot().ReturnItemObject();
+        return o;
     }
 
     public void OpenInv()

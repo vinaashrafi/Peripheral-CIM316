@@ -33,6 +33,10 @@ public class PickupItem : MonoBehaviour
         itemObject.SetActive(false);
     }
 
+    public void Killyourself()
+    {
+        Destroy(gameObject);
+    }
     public void Selected()
     {
         itemObject.SetActive(true);
