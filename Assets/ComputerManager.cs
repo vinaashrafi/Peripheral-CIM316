@@ -20,5 +20,16 @@ public class ComputerManager : MonoBehaviour
     public void OpenComputerWindow(int NumberWindow)
     {
         ComputerWindows[NumberWindow].SetActive(true);
+        SetWindowIndexAsCurrentWindow(NumberWindow);
+    }
+
+    public void CloseWindow(int NumberWindow)
+    {
+        ComputerWindows[NumberWindow].SetActive(false);
+    }
+
+    public void SetWindowIndexAsCurrentWindow(int NumberWindow)
+    {
+        ComputerWindows[NumberWindow].gameObject.transform.SetSiblingIndex(ComputerWindows.Length - 1);
     }
 }
