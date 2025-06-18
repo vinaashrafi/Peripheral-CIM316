@@ -13,8 +13,10 @@ public class PopUpCameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        gameObject.transform.localScale = new Vector3(1, 1, 1);
         Vector3 direction = transform.position - _object.transform.position;
         direction.y = 0;
+        
         if (direction != Vector3.zero)
         {
             transform.rotation = Quaternion.LookRotation(direction);
