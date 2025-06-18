@@ -6,16 +6,16 @@ using UnityEditor.Rendering;
 
 public class UIPopUpManager : PopUpBase
 {
-    public void Awake()
-    {
-       
-    }
 
     public void Update()
     {
-        if (player.crosshair = parentRB.detectCollisions)
+        if (player.RayCastFromCamera())
         {
-            popUpText.enabled = true;
+            popUpImage.SetActive(true);
+        }
+        else
+        {
+            popUpImage.SetActive(false);
         }
     }
 }
