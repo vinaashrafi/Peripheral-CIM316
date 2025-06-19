@@ -5,6 +5,8 @@ public class Item : MonoBehaviour, IPickupable
     public ItemScriptable itemScriptable;
     public GameObject itemVisuals;
     public float dropForce = 1f;
+    public bool hasBeenDropped;
+    
     public void Pickup(Transform handTransform)
     {
         if(InventoryManager.Current.IsInventoryFull())return;
@@ -14,6 +16,7 @@ public class Item : MonoBehaviour, IPickupable
         GetComponent<Rigidbody>().isKinematic = true;
         GetComponent<Collider>().isTrigger = true;
         PickupItem(itemScriptable);
+        hasBeenDropped = false;
     }
 
     public void Drop(Transform handTransform)
@@ -53,6 +56,8 @@ public class Item : MonoBehaviour, IPickupable
 
         // Reduce rolling
         rb.angularDamping = 5f;
+        
+        hasBeenDropped = true;
     }
 
 
