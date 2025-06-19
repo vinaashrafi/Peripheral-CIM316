@@ -3,6 +3,8 @@ using UnityEngine;
 public class cat : ChoreBase
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip pettingSound;
 
     public override void StartChore()
     {
@@ -10,7 +12,10 @@ public class cat : ChoreBase
 
         if (animator != null)
             animator.SetBool("isPetting", true);
-        
+
+        if (audioSource != null && pettingSound != null)
+            audioSource.PlayOneShot(pettingSound);
+
         Debug.Log("Cat chore started: isPetting set to true.");
     }
 
