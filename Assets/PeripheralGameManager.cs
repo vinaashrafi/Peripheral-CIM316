@@ -6,8 +6,8 @@ public class PeripheralGameManager : MonoBehaviour
     public static PeripheralGameManager Instance;
 
     [Header("Chore Tracking")]
-    public int totalChores = 10;
-    private int choresCompleted = 0;
+    [SerializeField] public int totalChores = 10;
+    [SerializeField] private float choresCompleted = 0;
     [SerializeField] private TextMeshProUGUI choreText;
 
     private void Awake()
@@ -20,6 +20,7 @@ public class PeripheralGameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        Debug.Log("PeripheralGameManager subscribing to chore completed event.");
         TaskEvents.OnChoreCompleted += HandleChoreComplete;
     }
 
@@ -27,10 +28,10 @@ public class PeripheralGameManager : MonoBehaviour
     {
         TaskEvents.OnChoreCompleted -= HandleChoreComplete;
     }
-
     private void HandleChoreComplete()
     {
-        choresCompleted++;
+      
+        choresCompleted += 0.5f; // count half per call
         Debug.Log($"Chores completed: {choresCompleted}/{totalChores}");
 
         if (choreText != null)

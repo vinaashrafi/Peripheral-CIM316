@@ -51,23 +51,24 @@ public class OutsideBins : MonoBehaviour
 
         rb.isKinematic = true;
 
-        other.transform.DOMove(bagDropPoint.position, 1f).SetEase(Ease.InOutSine)
-            .OnComplete(() =>
-            {
-                rb.isKinematic = true;
+        Sequence seq = DOTween.Sequence();
 
-                // Reset rotation
-                other.transform.rotation = Quaternion.identity;
+        seq.Join(other.transform.DOMove(bagDropPoint.position, 2f).SetEase(Ease.InOutSine));
+        seq.Join(other.transform.DORotate(Vector3.zero, 2f).SetEase(Ease.InOutSine));
 
-                Debug.Log("Item dropped into bin.");
+        seq.OnComplete(() =>
+        {
+            rb.isKinematic = true;
+            // Fire the event
+            TaskEvents.InvokeChoreCompleted();
+            Debug.Log("Item dropped into bin.");
+            
+            //
+            // // Remove item from inventory
+            // InventoryManager.Current.RemoveItem();
 
-                // Remove item from inventory
-                InventoryManager.Current.RemoveItem();
-                
-                // ✅ Broadcast task complete event
-                TaskEvents.OnChoreCompleted?.Invoke();
-                
-            });
+      
+        });
     }
 
 }

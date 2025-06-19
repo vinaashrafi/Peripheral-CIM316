@@ -244,7 +244,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6358299061816471079}
@@ -339,8 +339,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bagDropPoint: {fileID: 6882380191014916607}
-  binScript: {fileID: 0}
-  binTriggerCollider: {fileID: 0}
+  binScript: {fileID: 702710126832750555}
+  binTriggerCollider: {fileID: 4772265888869958055}
 --- !u!135 &4772265888869958055
 SphereCollider:
   m_ObjectHideFlags: 0

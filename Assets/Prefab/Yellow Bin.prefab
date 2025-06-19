@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5830695313092669773}
   - component: {fileID: 2602562302815515584}
   m_Layer: 0
-  m_Name: DropPoint (1)
+  m_Name: Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 136726712618132230}
@@ -425,8 +425,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bagDropPoint: {fileID: 8177678252473902335}
-  binScript: {fileID: 0}
-  binTriggerCollider: {fileID: 0}
+  binScript: {fileID: 2547925063546624989}
+  binTriggerCollider: {fileID: 4427750149206404055}
 --- !u!135 &4427750149206404055
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -444,7 +444,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.6
   m_Center: {x: 0.00000017881398, y: 1.41, z: 0.15}
