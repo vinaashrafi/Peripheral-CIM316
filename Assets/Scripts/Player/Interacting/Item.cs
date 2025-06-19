@@ -19,18 +19,40 @@ public class Item : MonoBehaviour, IPickupable
     public void Drop(Transform handTransform)
     {
         InventoryManager.Current.RemoveItem();
+
         // Detach from hand
         transform.SetParent(null);
+
         // Reactivate physics
         Rigidbody rb = GetComponent<Rigidbody>();
-        rb.isKinematic = false;
         Collider col = GetComponent<Collider>();
+
+        rb.isKinematic = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // Avoid tunneling
         col.isTrigger = false;
-        // Position it in front of the player slightly
-        transform.position = handTransform.position + handTransform.forward * 1f;
-        // Throw forward
+
+        // Calculate safe drop position
+        Vector3 dropPos = handTransform.position + handTransform.forward * 1f;
+        if (Physics.Raycast(handTransform.position, handTransform.forward, out RaycastHit hit, 1f))
+        {
+            dropPos = hit.point + Vector3.up * 0.2f;
+        }
+        else
+        {
+            dropPos += Vector3.up * 0.5f; // default offset
+        }
+
+        transform.position = dropPos;
+
+        // Stop any existing motion
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        // Apply drop force
         rb.AddForce(handTransform.forward * dropForce, ForceMode.Impulse);
-        
+
+        // Reduce rolling
+        rb.angularDamping = 5f;
     }
 
 
