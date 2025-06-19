@@ -63,6 +63,10 @@ public class OutsideBins : MonoBehaviour
 
                 // Remove item from inventory
                 InventoryManager.Current.RemoveItem();
+                
+                // ✅ Broadcast task complete event
+                TaskEvents.OnChoreCompleted?.Invoke();
+                
             });
     }
 
