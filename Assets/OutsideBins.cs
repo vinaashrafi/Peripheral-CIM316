@@ -41,27 +41,29 @@ public class OutsideBins : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!binScript.isOpen) return;             // Only accept if bin is open
-        if (!other.CompareTag("BinBag")) return;   // Only accept bin bags
+        if (!binScript.isOpen) return;
 
         Item item = other.GetComponent<Item>();
-        if (item == null || !item.hasBeenDropped) return;  // Only accept dropped bags
+        if (item == null || !item.hasBeenDropped) return;
 
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb == null) return;
 
-        rb.isKinematic = true;  // Stop physics for smooth move
+        rb.isKinematic = true;
 
         other.transform.DOMove(bagDropPoint.position, 1f).SetEase(Ease.InOutSine)
             .OnComplete(() =>
             {
-                Debug.Log("Bag settled inside bin.");
-
-                // Keep kinematic so it stays put
                 rb.isKinematic = true;
 
-                // Notify inventory system that bag was deposited
+                // Reset rotation
+                other.transform.rotation = Quaternion.identity;
+
+                Debug.Log("Item dropped into bin.");
+
+                // Remove item from inventory
                 InventoryManager.Current.RemoveItem();
             });
     }
+
 }
