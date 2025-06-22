@@ -96,8 +96,8 @@ public class computer : ChoreBase
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z)) // its a button for now, but we want it ot be on the screen for the compouter, so u can only log off from the desktop. 
-            ExitComputer();
+        // if (Input.GetKeyDown(KeyCode.Z)) // its a button for now, but we want it ot be on the screen for the compouter, so u can only log off from the desktop. 
+        //     ExitComputer();
         
         if (!isViewingCCTV)
             return;
