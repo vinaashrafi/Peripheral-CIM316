@@ -33,19 +33,14 @@ public class Printer : MonoBehaviour
         
     }
     
-    // public void EnablePrintedItemCollider()
-    // {
-    //     if (printedItemCollider != null)
-    //     {
-    //         printedItemCollider.enabled = true;
-    //         Debug.Log("Collider enabled via animation event.");
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("Printed item collider not assigned.");
-    //     }
-    //     printerAnimator.enabled = false;  //
-    // }
+    public void FinishPrint()
+    {
+        if (printerAnimator != null)
+            printerAnimator.SetBool("OnPrinted", false);
+        
+        printerAnimator.enabled = false;
+        
+    }
     
  
     
