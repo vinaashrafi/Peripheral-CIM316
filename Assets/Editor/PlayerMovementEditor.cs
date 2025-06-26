@@ -395,6 +395,37 @@ public class PlayerMovementEditor : Editor
         GUI.enabled = true;
 
         #endregion
+        
+        #region Inspect Settings
+
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        GUILayout.Label("Inspect Settings",
+            new GUIStyle(GUI.skin.label)
+                { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 13 },
+            GUILayout.ExpandWidth(true));
+        EditorGUILayout.Space();
+
+        
+        fpc.inspectDistance = EditorGUILayout.Slider(
+            new GUIContent("Inspect Distance", "Distance in front of the inspect camera where the object will be placed."),
+            fpc.inspectDistance, 0.5f, 5f);
+        
+        fpc.inspectCamera = (Camera)EditorGUILayout.ObjectField(
+            new GUIContent("Inspect Camera", "Camera used when inspecting objects."), 
+            fpc.inspectCamera, typeof(Camera), true);
+
+        fpc.inspectRotationSpeed = EditorGUILayout.FloatField(
+            new GUIContent("Rotation Speed", "Speed at which inspected object rotates."), 
+            fpc.inspectRotationSpeed);
+
+        // Add the inspect panel object field here:
+        fpc.inspectPanel = (GameObject)EditorGUILayout.ObjectField(
+            new GUIContent("Inspect Panel", "UI panel that appears during inspection (optional)."),
+            fpc.inspectPanel, typeof(GameObject), true);
+
+        EditorGUILayout.Space();
+
+        #endregion
 
         //Sets any changes from the prefab
         if (GUI.changed)

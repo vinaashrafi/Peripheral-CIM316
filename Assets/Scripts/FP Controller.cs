@@ -4,19 +4,30 @@ using UnityEngine.UI;
 public class FPController : MonoBehaviour
 {
     private Rigidbody rb;
-
-    // to do with chores
-
     [SerializeField] public bool holdToCompleteChore = true;
     [SerializeField] public bool enableChores = true;
     private ChoreProgressBar progressBar;
-
-
     private ChoreBase currentChore = null;
+    
 
-    // private IChoreable currentChore = null;
 
 
+
+    #region Inspect Variables
+    [Header("Inspect Settings")]
+    public GameObject inspectPanel;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    public float inspectDistance = 1.5f;
+    public Camera inspectCamera;           // Assign your inspect camera here
+    public float inspectRotationSpeed = 100f;
+    public string inspectTag = "Inspect";
+
+    private bool isInspecting = false;
+    private Transform objectToInspect = null;
+    private Vector3 previousMousePosition;
+    #endregion
+    
     #region Camera Movement Variables
 
     public Camera playerCamera;
@@ -37,6 +48,7 @@ public class FPController : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     private Image crosshairObject;
+    
 
     #region Camera Zoom Variables
 
@@ -166,6 +178,10 @@ public class FPController : MonoBehaviour
 
     void Start()
     {
+        if (inspectCamera != null)
+        {
+            inspectCamera.enabled = false;  // Disable on start
+        }
         progressBar = FindObjectOfType<ChoreProgressBar>();
 
         if (lockCursor)
@@ -213,7 +229,11 @@ public class FPController : MonoBehaviour
         }
 
         #endregion
+        
+ 
     }
+    
+    
 
     float camRotation;
 
@@ -492,6 +512,135 @@ public class FPController : MonoBehaviour
         {
             HeadBob();
         }
+        
+        #region Inspect
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (isInspecting)
+            {
+                ExitInspectMode();
+            }
+            else
+            {
+                TryStartInspectMode();
+            }
+        }
+
+        if (isInspecting)
+        {
+            RotateInspectedObject();
+        }
+        #endregion
+        
+        #region Inspect Functions
+
+        void TryStartInspectMode()
+        {
+            GameObject target = RayCastFromCamera();
+
+            // Replace tag check with IPickupable check or your own logic
+            if (target != null && target.GetComponent<IPickupable>() != null)
+            {
+                isInspecting = true;
+                objectToInspect = target.transform;
+
+                // Save original transform
+                originalPosition = objectToInspect.position;
+                originalRotation = objectToInspect.rotation;
+
+                // Get Rigidbody and freeze physics
+                Rigidbody rb = objectToInspect.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = true;
+                }
+
+
+       
+
+                // Move object into inspect view
+                objectToInspect.position = inspectCamera.transform.position + inspectCamera.transform.forward * inspectDistance;
+                objectToInspect.rotation = Quaternion.identity;
+
+                playerCamera.enabled = false;
+                inspectCamera.enabled = true;
+
+                // Show UI (if any)
+                if (inspectPanel != null)
+                    inspectPanel.SetActive(true);
+
+                DisableInput();
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
+
+        void ExitInspectMode()
+        {
+            if (objectToInspect != null)
+            {
+                Rigidbody rb = objectToInspect.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                }
+
+                // Reset transform
+                objectToInspect.position = originalPosition;
+                objectToInspect.rotation = originalRotation;
+
+                objectToInspect = null;
+            }
+      
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+            }
+            
+            isInspecting = false;
+
+            playerCamera.enabled = true;
+            inspectCamera.enabled = false;
+
+            if (inspectPanel != null)
+                inspectPanel.SetActive(false); // ❌ Turn off panel
+
+            EnableInput();
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            
+            
+            
+   
+
+        
+        }
+
+        void RotateInspectedObject()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                previousMousePosition = Input.mousePosition;
+            }
+
+            if (Input.GetMouseButton(0) && objectToInspect != null)
+            {
+                Vector3 deltaMouse = Input.mousePosition - previousMousePosition;
+
+                float rotX = deltaMouse.y * inspectRotationSpeed * Time.deltaTime;
+                float rotY = -deltaMouse.x * inspectRotationSpeed * Time.deltaTime;
+
+                Quaternion rotation = Quaternion.Euler(rotX, rotY, 0);
+                objectToInspect.rotation = rotation * objectToInspect.rotation;
+
+                previousMousePosition = Input.mousePosition;
+            }
+        }
+
+        #endregion
+        
+        
     }
 
     void FixedUpdate()
@@ -689,4 +838,6 @@ public class FPController : MonoBehaviour
         playerCanMove = true;
         cameraCanMove = true;
     }
+    
+    
 }
