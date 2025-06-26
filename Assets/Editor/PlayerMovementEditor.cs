@@ -262,6 +262,8 @@ public class PlayerMovementEditor : Editor
             (KeyCode)EditorGUILayout.EnumPopup(
                 new GUIContent("Inspect Key", "Determines what key is used to enter/exit inspect mode."),
                 fpc.inspectKey);
+        
+
 
         #endregion
 
@@ -438,6 +440,11 @@ public class PlayerMovementEditor : Editor
         fpc.inspectPanel = (GameObject)EditorGUILayout.ObjectField(
             new GUIContent("Inspect Panel", "UI panel that appears during inspection (optional)."),
             fpc.inspectPanel, typeof(GameObject), true);
+        
+        fpc.inspectCanvas = (Canvas)EditorGUILayout.ObjectField(
+            new GUIContent("Inspect Canvas", "Canvas to enable during inspect mode."),
+            fpc.inspectCanvas, typeof(Canvas), true);
+        
 
         EditorGUILayout.Space();
 

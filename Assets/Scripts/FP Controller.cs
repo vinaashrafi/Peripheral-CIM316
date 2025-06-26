@@ -13,6 +13,7 @@ public class FPController : MonoBehaviour
     #region Inspect Variables
 
     [Header("Inspect Settings")] 
+    public Canvas inspectCanvas;
     public KeyCode inspectKey = KeyCode.F;
     public GameObject inspectPanel;
     private Vector3 originalPosition;
@@ -552,6 +553,9 @@ public class FPController : MonoBehaviour
             {
                 isInspecting = true;
                 objectToInspect = target.transform;
+                
+                if (inspectCanvas != null)
+                    inspectCanvas.enabled = false;
 
                 // Save original transform
                 originalPosition = objectToInspect.position;
@@ -606,6 +610,9 @@ public class FPController : MonoBehaviour
             }
 
             isInspecting = false;
+            
+            if (inspectCanvas != null)
+                inspectCanvas.enabled = true;
 
             playerCamera.enabled = true;
             inspectCamera.enabled = false;
