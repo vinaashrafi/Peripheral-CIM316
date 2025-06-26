@@ -4,18 +4,30 @@ using UnityEngine.UI;
 public class FPController : MonoBehaviour
 {
     private Rigidbody rb;
-
-    // to do with chores
-
     [SerializeField] public bool holdToCompleteChore = true;
     [SerializeField] public bool enableChores = true;
     private ChoreProgressBar progressBar;
-
-
     private ChoreBase currentChore = null;
 
-    // private IChoreable currentChore = null;
 
+    #region Inspect Variables
+
+    [Header("Inspect Settings")] 
+    public Canvas inspectCanvas;
+    public KeyCode inspectKey = KeyCode.F;
+    public GameObject inspectPanel;
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
+    public float inspectDistance = 1.5f;
+    public Camera inspectCamera; // Assign your inspect camera here
+    public float inspectRotationSpeed = 100f;
+    public string inspectTag = "Inspect";
+
+    private bool isInspecting = false;
+    private Transform objectToInspect = null;
+    private Vector3 previousMousePosition;
+
+    #endregion
 
     #region Camera Movement Variables
 
@@ -37,6 +49,7 @@ public class FPController : MonoBehaviour
     private float yaw = 0.0f;
     private float pitch = 0.0f;
     private Image crosshairObject;
+
 
     #region Camera Zoom Variables
 
@@ -111,10 +124,12 @@ public class FPController : MonoBehaviour
     public Transform playerHandTransform;
 
     #endregion
-    
+
     #region Drop
+
     public KeyCode dropKey = KeyCode.Q;
     public GameObject heldItem;
+
     #endregion
 
     #region Crouch
@@ -166,6 +181,11 @@ public class FPController : MonoBehaviour
 
     void Start()
     {
+        if (inspectCamera != null)
+        {
+            inspectCamera.enabled = false; // Disable on start
+        }
+
         progressBar = FindObjectOfType<ChoreProgressBar>();
 
         if (lockCursor)
@@ -214,6 +234,7 @@ public class FPController : MonoBehaviour
 
         #endregion
     }
+
 
     float camRotation;
 
@@ -354,80 +375,83 @@ public class FPController : MonoBehaviour
 
         #region Pickup
 
-        // Gets input and calls pickup method and if the player can't pickup anything it will try to see if the player can interact with anything.
-        if (Input.GetKeyDown(pickupKey))
+        if (!isInspecting)
         {
-            GameObject target = RayCastFromCamera();
-            if (target)
+            // Gets input and calls pickup method and if the player can't pickup anything it will try to see if the player can interact with anything.
+            if (Input.GetKeyDown(pickupKey))
             {
-                // --- Prioritize chores ---
-                if (enableChores && currentChore == null)
+                GameObject target = RayCastFromCamera();
+                if (target)
                 {
-                    IChoreable targetChore = target.GetComponent<IChoreable>();
-                    if (targetChore != null)
+                    // --- Prioritize chores ---
+                    if (enableChores && currentChore == null)
                     {
-                        ChoreBase chore = targetChore as ChoreBase;
-                        if (chore != null)
+                        IChoreable targetChore = target.GetComponent<IChoreable>();
+                        if (targetChore != null)
                         {
-                            currentChore = chore;
-                            currentChore.StartChore();
-
-                            if (progressBar != null)
+                            ChoreBase chore = targetChore as ChoreBase;
+                            if (chore != null)
                             {
-                                progressBar.SetChore(currentChore);
-                                Debug.Log("CHORE STARTED → SLIDER SET");
-                            }
+                                currentChore = chore;
+                                currentChore.StartChore();
 
-                            if (!holdToCompleteChore)
-                            {
-                                currentChore = null;
-                            }
+                                if (progressBar != null)
+                                {
+                                    progressBar.SetChore(currentChore);
+                                    Debug.Log("CHORE STARTED → SLIDER SET");
+                                }
 
-                            return; // ✅ Done — don't fall through
+                                if (!holdToCompleteChore)
+                                {
+                                    currentChore = null;
+                                }
+
+                                return; // ✅ Done — don't fall through
+                            }
                         }
                     }
-                }
 
-                // --- If not a chore, check if it's an interactable ---
-                IInteractable interactable = target.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    interactable.Interact();
-                    return;
-                }
+                    // --- If not a chore, check if it's an interactable ---
+                    IInteractable interactable = target.GetComponent<IInteractable>();
+                    if (interactable != null)
+                    {
+                        interactable.Interact();
+                        return;
+                    }
 
-                // --- Then check for pickups ---
-                IPickupable pickupable = target.GetComponent<IPickupable>();
-                if (pickupable != null)
-                {
-                    pickupable.Pickup(playerHandTransform);
-                    return;
-                }
-                
-                // if (enableChores) // <- Only check for chores if enabled
-                // {
-                //     IChoreable chore = hit.collider.GetComponent<IChoreable>(); // Detect the choreable object
-                //     if (chore != null && currentChore == null) // Start the chore if none is active
-                //     {
-                //         currentChore = chore as ChoreBase;
-                //         currentChore.StartChore();
-                //
-                //         if (!holdToCompleteChore)
-                //         {
-                //             // If hold not required, immediately clear the chore reference
-                //             currentChore = null;
-                //         }
-                //
-                //         return;
-                //     }
-                // }
+                    // --- Then check for pickups ---
+                    IPickupable pickupable = target.GetComponent<IPickupable>();
+                    if (pickupable != null)
+                    {
+                        pickupable.Pickup(playerHandTransform);
+                        return;
+                    }
 
-                // IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-                // if (interactable != null)
-                // {
-                //     interactable.Interact();
-                //     return;
-                // }
+                    // if (enableChores) // <- Only check for chores if enabled
+                    // {
+                    //     IChoreable chore = hit.collider.GetComponent<IChoreable>(); // Detect the choreable object
+                    //     if (chore != null && currentChore == null) // Start the chore if none is active
+                    //     {
+                    //         currentChore = chore as ChoreBase;
+                    //         currentChore.StartChore();
+                    //
+                    //         if (!holdToCompleteChore)
+                    //         {
+                    //             // If hold not required, immediately clear the chore reference
+                    //             currentChore = null;
+                    //         }
+                    //
+                    //         return;
+                    //     }
+                    // }
+
+                    // IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+                    // if (interactable != null)
+                    // {
+                    //     interactable.Interact();
+                    //     return;
+                    // }
+                }
             }
         }
 
@@ -442,26 +466,30 @@ public class FPController : MonoBehaviour
         }
 
         #endregion
-        
-        
+
+
         #region Drop
-        if (Input.GetKeyDown(dropKey))
+
+        if (!isInspecting)
         {
-            heldItem = InventoryManager.Current.ReturnSelectedItemInInventory();
-            // Throw/drop currently held item if there is one
-            if (heldItem != null)
+            if (Input.GetKeyDown(dropKey))
             {
-                IPickupable pickupable = heldItem.GetComponent<IPickupable>();
-                if (pickupable != null)
+                heldItem = InventoryManager.Current.ReturnSelectedItemInInventory();
+                // Throw/drop currently held item if there is one
+                if (heldItem != null)
                 {
-                    pickupable.Drop(playerHandTransform);
-                    heldItem = null;
+                    IPickupable pickupable = heldItem.GetComponent<IPickupable>();
+                    if (pickupable != null)
+                    {
+                        pickupable.Drop(playerHandTransform);
+                        heldItem = null;
+                    }
                 }
             }
-            
         }
+
         #endregion
-        
+
 
         #region Crouch
 
@@ -488,10 +516,138 @@ public class FPController : MonoBehaviour
 
         CheckGround();
 
-        if (enableHeadBob)
+        if (enableHeadBob && !isInspecting)
         {
             HeadBob();
         }
+
+        #region Inspect
+
+        if (Input.GetKeyDown(inspectKey))
+        {
+            if (isInspecting)
+            {
+                ExitInspectMode();
+            }
+            else
+            {
+                TryStartInspectMode();
+            }
+        }
+
+        if (isInspecting)
+        {
+            RotateInspectedObject();
+        }
+
+        #endregion
+
+        #region Inspect Functions
+
+        void TryStartInspectMode()
+        {
+            GameObject target = RayCastFromCamera();
+
+            // Replace tag check with IPickupable check or your own logic
+            if (target != null && target.GetComponent<IPickupable>() != null)
+            {
+                isInspecting = true;
+                objectToInspect = target.transform;
+                
+                if (inspectCanvas != null)
+                    inspectCanvas.enabled = false;
+
+                // Save original transform
+                originalPosition = objectToInspect.position;
+                originalRotation = objectToInspect.rotation;
+
+                // Get Rigidbody and freeze physics
+                Rigidbody rb = objectToInspect.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = true;
+                }
+
+
+                // Move object into inspect view
+                objectToInspect.position =
+                    inspectCamera.transform.position + inspectCamera.transform.forward * inspectDistance;
+                objectToInspect.rotation = Quaternion.identity;
+                //
+                // playerCamera.enabled = false;
+                inspectCamera.enabled = true;
+
+                // Show UI (if any)
+                if (inspectPanel != null)
+                    inspectPanel.SetActive(true);
+
+                DisableInput();
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
+
+        void ExitInspectMode()
+        {
+            if (objectToInspect != null)
+            {
+                Rigidbody rb = objectToInspect.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.isKinematic = false;
+                }
+
+                // Reset transform
+                objectToInspect.position = originalPosition;
+                objectToInspect.rotation = originalRotation;
+
+                objectToInspect = null;
+            }
+
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+            }
+
+            isInspecting = false;
+            
+            if (inspectCanvas != null)
+                inspectCanvas.enabled = true;
+
+            playerCamera.enabled = true;
+            inspectCamera.enabled = false;
+
+            if (inspectPanel != null)
+                inspectPanel.SetActive(false); // ❌ Turn off panel
+
+            EnableInput();
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        void RotateInspectedObject()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                previousMousePosition = Input.mousePosition;
+            }
+
+            if (Input.GetMouseButton(0) && objectToInspect != null)
+            {
+                Vector3 deltaMouse = Input.mousePosition - previousMousePosition;
+
+                float rotX = deltaMouse.y * inspectRotationSpeed * Time.deltaTime;
+                float rotY = -deltaMouse.x * inspectRotationSpeed * Time.deltaTime;
+
+                Quaternion rotation = Quaternion.Euler(rotX, rotY, 0);
+                objectToInspect.rotation = rotation * objectToInspect.rotation;
+
+                previousMousePosition = Input.mousePosition;
+            }
+        }
+
+        #endregion
     }
 
     void FixedUpdate()
@@ -675,8 +831,8 @@ public class FPController : MonoBehaviour
 
         return null;
     }
-    
-    
+
+
     // for computer 
     public void DisableInput()
     {

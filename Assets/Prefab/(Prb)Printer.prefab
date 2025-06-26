@@ -185,6 +185,7 @@ MonoBehaviour:
   printerAnimator: {fileID: 4915199450665867383}
   audioSource: {fileID: 390613840895836847}
   printCompleteClip: {fileID: 8300000, guid: a0ffdefc0dc51894aa2291ec721c15f4, type: 3}
+  printedItemCollider: {fileID: 6102743309615891186}
 --- !u!82 &390613840895836847
 AudioSource:
   m_ObjectHideFlags: 0
@@ -198,7 +199,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: a0ffdefc0dc51894aa2291ec721c15f4, type: 3}
   m_Resource: {fileID: 8300000, guid: a0ffdefc0dc51894aa2291ec721c15f4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -360,7 +361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9190730114138338481, guid: 1dd22f45c69bf71488ba82898754e046, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -370,5 +371,10 @@ PrefabInstance:
 --- !u!4 &3093609125496335271 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 131714858048740836, guid: 1dd22f45c69bf71488ba82898754e046, type: 3}
+  m_PrefabInstance: {fileID: 3115722301014767171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &6102743309615891186 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 9190730114138338481, guid: 1dd22f45c69bf71488ba82898754e046, type: 3}
   m_PrefabInstance: {fileID: 3115722301014767171}
   m_PrefabAsset: {fileID: 0}

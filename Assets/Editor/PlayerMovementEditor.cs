@@ -250,6 +250,22 @@ public class PlayerMovementEditor : Editor
         EditorGUILayout.Space();
 
         #endregion
+        
+        #region Inspect
+
+        GUILayout.Label("Inspect",
+            new GUIStyle(GUI.skin.label)
+                { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 },
+            GUILayout.ExpandWidth(true));
+
+        fpc.inspectKey = 
+            (KeyCode)EditorGUILayout.EnumPopup(
+                new GUIContent("Inspect Key", "Determines what key is used to enter/exit inspect mode."),
+                fpc.inspectKey);
+        
+
+
+        #endregion
 
         #region Drop
 
@@ -393,6 +409,44 @@ public class PlayerMovementEditor : Editor
             new GUIContent("Bob Amount", "Determines the amount the joint moves in both directions on every axes."),
             fpc.bobAmount);
         GUI.enabled = true;
+
+        #endregion
+        
+        #region Inspect Settings
+
+        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+        GUILayout.Label("Inspect Settings",
+            
+            
+            new GUIStyle(GUI.skin.label)
+                { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 13 },
+            GUILayout.ExpandWidth(true));
+        EditorGUILayout.Space();
+
+        
+        fpc.inspectDistance = EditorGUILayout.Slider(
+            new GUIContent("Inspect Distance", "Distance in front of the inspect camera where the object will be placed."),
+            fpc.inspectDistance, 0.5f, 5f);
+        
+        fpc.inspectCamera = (Camera)EditorGUILayout.ObjectField(
+            new GUIContent("Inspect Camera", "Camera used when inspecting objects."), 
+            fpc.inspectCamera, typeof(Camera), true);
+
+        fpc.inspectRotationSpeed = EditorGUILayout.FloatField(
+            new GUIContent("Rotation Speed", "Speed at which inspected object rotates."), 
+            fpc.inspectRotationSpeed);
+
+        // Add the inspect panel object field here:
+        fpc.inspectPanel = (GameObject)EditorGUILayout.ObjectField(
+            new GUIContent("Inspect Panel", "UI panel that appears during inspection (optional)."),
+            fpc.inspectPanel, typeof(GameObject), true);
+        
+        fpc.inspectCanvas = (Canvas)EditorGUILayout.ObjectField(
+            new GUIContent("Inspect Canvas", "Canvas to enable during inspect mode."),
+            fpc.inspectCanvas, typeof(Canvas), true);
+        
+
+        EditorGUILayout.Space();
 
         #endregion
 
