@@ -19,24 +19,33 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Time Related Variables
+    public GameObject sun;
+    public float dayStartTimeSeconds;
+    public float dayStartTimeMinutes;
+    public float dayStartTimeHours;
+    
+    private Quaternion sunStartRotation;
     private float degreePerSecond;
     private Vector3 rotation;
-    public GameObject sun;
-    public float worldTimeSeconds;
-    public float worldTimeMinutes;
-    public float worldTimeHours = 7;
-    public float worldTimeDays;
+    [SerializeField] private float worldTimeSeconds;
+    [SerializeField] private float worldTimeMinutes;
+    [SerializeField] private float worldTimeHours;
+    [SerializeField] private float worldTimeDays;
     private float _timer;
     private float WorldClockUpdater;
-
     public float secondsInADay;
     public float minutesInADay;
     public float hoursInADay;
     private float _totalSecondsInADay;
-    public Vector3 _timePerSecond;
-
+    private Vector3 _timePerSecond;
+    #endregion
     private void Start()
     {
+        sunStartRotation = sun.transform.rotation;
+        worldTimeSeconds = dayStartTimeSeconds;
+        worldTimeMinutes = dayStartTimeMinutes;
+        worldTimeHours = dayStartTimeHours;
         _totalSecondsInADay = secondsInADay + minutesInADay*60 + hoursInADay*3600;
         CalculateDayCycleDegrees();
         CalculateTimePerSecond();
@@ -118,5 +127,14 @@ public class GameManager : MonoBehaviour
     public Vector3 ReturnTime()
     {
         return new Vector3(worldTimeMinutes, worldTimeHours, worldTimeDays);
+    }
+
+    public void SkipToNextDay()
+    {
+        sun.transform.rotation = sunStartRotation;
+        worldTimeSeconds = dayStartTimeSeconds;
+        worldTimeMinutes = dayStartTimeMinutes;
+        worldTimeHours = dayStartTimeHours;
+        worldTimeDays++;
     }
 }
