@@ -561,8 +561,8 @@ public class FPController : MonoBehaviour
                 // Move object into inspect view
                 objectToInspect.position = inspectCamera.transform.position + inspectCamera.transform.forward * inspectDistance;
                 objectToInspect.rotation = Quaternion.identity;
-
-                playerCamera.enabled = false;
+                //
+                // playerCamera.enabled = false;
                 inspectCamera.enabled = true;
 
                 // Show UI (if any)

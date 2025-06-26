@@ -6,7 +6,7 @@ public class Printer : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip printCompleteClip;
 
-    // [SerializeField] private Collider printedItemCollider; // <- reference to child collider
+    [SerializeField] private Collider printedItemCollider; // <- reference to child collider
  
 
     private void Start()
@@ -16,9 +16,9 @@ public class Printer : MonoBehaviour
 
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
-        //
-        // if (printedItemCollider != null)
-        //     printedItemCollider.enabled = false; // make sure it's off initially
+        
+        if (printedItemCollider != null)
+            printedItemCollider.enabled = false; // make sure it's off initially
     }
 
     public void OnPrinted()
@@ -39,6 +39,9 @@ public class Printer : MonoBehaviour
             printerAnimator.SetBool("OnPrinted", false);
         
         printerAnimator.enabled = false;
+        
+        if (printedItemCollider != null)
+            printedItemCollider.enabled = true; // enable collider when printing is finished
         
     }
     
