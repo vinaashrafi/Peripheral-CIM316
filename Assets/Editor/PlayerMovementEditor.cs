@@ -250,6 +250,20 @@ public class PlayerMovementEditor : Editor
         EditorGUILayout.Space();
 
         #endregion
+        
+        #region Inspect
+
+        GUILayout.Label("Inspect",
+            new GUIStyle(GUI.skin.label)
+                { alignment = TextAnchor.MiddleLeft, fontStyle = FontStyle.Bold, fontSize = 13 },
+            GUILayout.ExpandWidth(true));
+
+        fpc.inspectKey = 
+            (KeyCode)EditorGUILayout.EnumPopup(
+                new GUIContent("Inspect Key", "Determines what key is used to enter/exit inspect mode."),
+                fpc.inspectKey);
+
+        #endregion
 
         #region Drop
 
@@ -400,6 +414,8 @@ public class PlayerMovementEditor : Editor
 
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
         GUILayout.Label("Inspect Settings",
+            
+            
             new GUIStyle(GUI.skin.label)
                 { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, fontSize = 13 },
             GUILayout.ExpandWidth(true));
