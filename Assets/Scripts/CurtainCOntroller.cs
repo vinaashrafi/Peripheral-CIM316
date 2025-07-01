@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class CurtainCOntroller : ChoreBase
 {
-    public bool slideOppositeDirection = false; // If true, slides backward (-Z)
+    [Header("Slide Axis")]
+    public bool slideX = false;
+    public bool slideY = false;
+    public bool slideZ = true;
+
+    [Header("Slide Settings")]
+    public bool slideOppositeDirection = false;
     public float slideDistance = 1f;
     public float slideDuration = 2f;
-    public float autoReturnTime = 120f; // 2 minutes
+
+    [Header("Auto Return Settings")]
+    public bool enableAutoReturn = true;
+    public float autoReturnTime = 120f;
 
     private Vector3 closedPosition;
     private Vector3 openPosition;
@@ -17,16 +26,20 @@ public class CurtainCOntroller : ChoreBase
     void Start()
     {
         closedPosition = transform.localPosition;
-        Vector3 direction = slideOppositeDirection ? -Vector3.forward : Vector3.forward;
+
+        Vector3 direction = Vector3.zero;
+
+        if (slideX) direction = slideOppositeDirection ? -Vector3.right : Vector3.right;
+        else if (slideY) direction = slideOppositeDirection ? -Vector3.up : Vector3.up;
+        else if (slideZ) direction = slideOppositeDirection ? -Vector3.forward : Vector3.forward;
+
         openPosition = closedPosition + direction * slideDistance;
     }
 
-    // Override Interact to call base StartChore (which starts progress)
     public override void Interact()
     {
-        base.Interact();  // calls StartChore()
+        base.Interact();
 
-        // If there's an auto-return coroutine running, stop it so curtain won't auto close during new chore
         if (autoReturnCoroutine != null)
         {
             StopCoroutine(autoReturnCoroutine);
@@ -34,18 +47,17 @@ public class CurtainCOntroller : ChoreBase
         }
     }
 
-    // Override CompleteChore to toggle curtain once chore time is done
     public override void CompleteChore()
     {
         base.CompleteChore();
 
         ToggleCurtain();
 
-        // Restart auto-return timer after sliding
         if (autoReturnCoroutine != null)
             StopCoroutine(autoReturnCoroutine);
 
-        autoReturnCoroutine = StartCoroutine(AutoReturnAfterDelay());
+        if (enableAutoReturn)
+            autoReturnCoroutine = StartCoroutine(AutoReturnAfterDelay());
     }
 
     private void ToggleCurtain()
