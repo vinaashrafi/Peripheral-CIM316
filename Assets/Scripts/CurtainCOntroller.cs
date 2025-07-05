@@ -4,29 +4,63 @@ using UnityEngine;
 
 public class CurtainCOntroller : ChoreBase
 {
-    public bool slideOppositeDirection = false; // If true, slides backward (-Z)
+    [Header("Slide Axis")]
+    public bool slideX = false;
+    public bool slideY = false;
+    public bool slideZ = true;
+
+    [Header("Slide Settings")]
+    public bool slideOppositeDirection = false;
     public float slideDistance = 1f;
     public float slideDuration = 2f;
-    public float autoReturnTime = 120f; // 2 minutes
+
+    [Header("Auto Return Settings")]
+    public bool enableAutoReturn = true;
+    public float autoReturnTime = 120f;
+    
+    [Header("Scale Change Settings")]
+    public bool enableScaleChange = false;
+    public bool scaleX = false;
+    public bool scaleY = false;
+    public bool scaleZ = false;
+    public float scaleAmount = 0.5f;
 
     private Vector3 closedPosition;
     private Vector3 openPosition;
-    private bool isAtClosedPosition = true;
+    private Vector3 closedScale;
+    private Vector3 openScale;
+    [SerializeField] private bool isAtClosedPosition = true;
     private Coroutine autoReturnCoroutine;
 
     void Start()
     {
         closedPosition = transform.localPosition;
-        Vector3 direction = slideOppositeDirection ? -Vector3.forward : Vector3.forward;
+        closedScale = transform.localScale;
+
+        Vector3 direction = Vector3.zero;
+
+        if (slideX) direction = slideOppositeDirection ? -Vector3.right : Vector3.right;
+        else if (slideY) direction = slideOppositeDirection ? -Vector3.up : Vector3.up;
+        else if (slideZ) direction = slideOppositeDirection ? -Vector3.forward : Vector3.forward;
+        
         openPosition = closedPosition + direction * slideDistance;
+        // Set open scale
+        openScale = closedScale;
+        if (enableScaleChange)
+        {
+            if (scaleX) openScale.x += scaleAmount;
+            if (scaleY) openScale.y += scaleAmount;
+            if (scaleZ) openScale.z += scaleAmount;
+        }
+        
+
+ 
     }
 
-    // Override Interact to call base StartChore (which starts progress)
     public override void Interact()
     {
-        base.Interact();  // calls StartChore()
+        base.Interact();
 
-        // If there's an auto-return coroutine running, stop it so curtain won't auto close during new chore
         if (autoReturnCoroutine != null)
         {
             StopCoroutine(autoReturnCoroutine);
@@ -34,40 +68,46 @@ public class CurtainCOntroller : ChoreBase
         }
     }
 
-    // Override CompleteChore to toggle curtain once chore time is done
     public override void CompleteChore()
     {
         base.CompleteChore();
 
         ToggleCurtain();
 
-        // Restart auto-return timer after sliding
-        if (autoReturnCoroutine != null)
-            StopCoroutine(autoReturnCoroutine);
-
-        autoReturnCoroutine = StartCoroutine(AutoReturnAfterDelay());
+        // if (autoReturnCoroutine != null)
+        //     StopCoroutine(autoReturnCoroutine);
+        //
+        // if (enableAutoReturn)
+        //     autoReturnCoroutine = StartCoroutine(AutoReturnAfterDelay());
     }
 
     private void ToggleCurtain()
     {
         Vector3 targetPosition = isAtClosedPosition ? openPosition : closedPosition;
+        Vector3 targetScale = isAtClosedPosition ? openScale : closedScale;
 
         transform.DOKill();
         transform.DOLocalMove(targetPosition, slideDuration)
             .SetEase(Ease.OutCubic);
 
+        if (enableScaleChange)
+        {
+            transform.DOScale(targetScale, slideDuration)
+                .SetEase(Ease.OutCubic);
+        }
+    
         isAtClosedPosition = !isAtClosedPosition;
 
-        Debug.Log($"{gameObject.name} sliding to {targetPosition}");
+        Debug.Log($"{gameObject.name} sliding to {targetPosition} and scaling to {targetScale}");
     }
 
-    private IEnumerator AutoReturnAfterDelay()
-    {
-        yield return new WaitForSeconds(autoReturnTime);
-
-        Debug.Log($"{gameObject.name} auto-return triggered.");
-        ToggleCurtain();
-
-        autoReturnCoroutine = null;
-    }
+    // private IEnumerator AutoReturnAfterDelay()
+    // {
+    //     yield return new WaitForSeconds(autoReturnTime);
+    //
+    //     Debug.Log($"{gameObject.name} auto-return triggered.");
+    //     ToggleCurtain();
+    //
+    //     autoReturnCoroutine = null;
+    // }
 }
