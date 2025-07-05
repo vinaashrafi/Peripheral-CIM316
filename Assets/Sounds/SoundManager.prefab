@@ -50,4 +50,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6fecfe4d0a4748541a65fbd66f1b5ecd, type: 3}
   curtainOpenClip: {fileID: 8300000, guid: 162edc293539f904d95c8f3c13996cac, type: 3}
   curtainCloseClip: {fileID: 8300000, guid: 20f1593fd32cec2488fd544cbc6531bd, type: 3}
+  printerClip: {fileID: 8300000, guid: a0ffdefc0dc51894aa2291ec721c15f4, type: 3}
+  computerOnClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
+  computerOffClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
+  cctvViewClip: {fileID: 8300000, guid: ca59b1d5054e4d74f907d9280136d42c, type: 3}
+  SwitchCameraClip: {fileID: 8300000, guid: f45b641bb7ac7594c9eef6b5557b6d96, type: 3}
   audioSourcePrefab: {fileID: 240821364981218583, guid: be1453741f8fb804ea6260142ac196fb, type: 3}

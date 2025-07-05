@@ -18,8 +18,18 @@ public class SoundManager : MonoBehaviour
     [Header("Printer Sounds")]
     public AudioClip printerClip;
     
+    [Header("Computer / CCTV Sounds")]
+    public AudioClip computerOnClip;
+    public AudioClip computerOffClip;
+    public AudioClip cctvViewClip;
+    public AudioClip SwitchCameraClip;
+    
+    
     [Header("Audio Settings")]
     public AudioSource audioSourcePrefab;
+    
+    // Dedicated AudioSource for CCTV loop sound
+    private AudioSource cctvAudioSource;
     
     private void Awake()
     {
@@ -69,6 +79,44 @@ public class SoundManager : MonoBehaviour
     public void PlayPrinterSound(Vector3 position)
     {
         PlaySoundAtPosition(printerClip, position);
+    }
+    public void PlayComputerOnSound(Vector3 position)
+    {
+        PlaySoundAtPosition(computerOnClip, position);
+    }
+    public void PlayComputerOffSound(Vector3 position)
+    {
+        PlaySoundAtPosition(computerOffClip, position);
+    }
+    // CCTV sound play (looping)
+
+
+    public void SwitchCameraSound(Vector3 position)
+    {
+        PlaySoundAtPosition(SwitchCameraClip, position);
+    }
+
+    public void PlayCCTVLoopSound(Vector3 position)
+    {
+        if (cctvAudioSource == null && audioSourcePrefab != null && cctvViewClip != null)
+        {
+            cctvAudioSource = Instantiate(audioSourcePrefab, position, Quaternion.identity);
+            cctvAudioSource.clip = cctvViewClip;
+            cctvAudioSource.loop = true;
+            cctvAudioSource.Play();
+            Debug.Log("CCTV sound playing");
+        }
+    }
+
+    public void StopCCTVLoopSound()
+    {
+        if (cctvAudioSource != null)
+        {
+            cctvAudioSource.Stop();
+            Destroy(cctvAudioSource.gameObject);
+            cctvAudioSource = null;
+            Debug.Log("CCTV sound stopped");
+        }
     }
     
     

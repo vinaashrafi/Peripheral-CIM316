@@ -29,6 +29,8 @@ public class computer : ChoreBase
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+        // Play computer sound at player position
+        SoundManager.Instance.PlayComputerOnSound(playerController.transform.position);
 
         Debug.Log("Started computer chore. Canvas enabled.");
     }
@@ -59,6 +61,9 @@ public class computer : ChoreBase
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+        // Play computer sound at player position
+        SoundManager.Instance.PlayComputerOffSound(playerController.transform.position);
+        
 
         Debug.Log("Exited Computer");
     }
@@ -90,8 +95,11 @@ public class computer : ChoreBase
         currentCameraIndex = 0;
         isViewingCCTV = true;
         ActivateCamera(currentCameraIndex);
+        
+        SoundManager.Instance.PlayCCTVLoopSound(playerController.transform.position);
+        Debug.Log("ActivateCameras called: CCTV sound should play");
 
-        Debug.Log("Initial CCTV camera activated.");
+     
     }
 
     private void Update()
@@ -104,6 +112,7 @@ public class computer : ChoreBase
 
         HandleCameraCycleInput();
         HandleExitInput();
+        
         
     }
 
@@ -131,6 +140,10 @@ public class computer : ChoreBase
             // Enable tutorial canvas if assigned
             if (tutorialCanvas != null)
                 tutorialCanvas.gameObject.SetActive(false);
+            
+            SoundManager.Instance.StopCCTVLoopSound();
+            Debug.Log("CCTV sound stopped on exit");
+            
         }
     }
     
@@ -143,6 +156,9 @@ public class computer : ChoreBase
 
         currentCameraIndex = (currentCameraIndex + direction + cctvCameras.Length) % cctvCameras.Length;
         ActivateCamera(currentCameraIndex);
+        // ✅ Play camera switch sound
+        SoundManager.Instance.SwitchCameraSound(playerController.transform.position);
+        Debug.Log("SwitchCamera sound called");
     }
 
     // Activates the camera at the given index and disables the others
