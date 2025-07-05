@@ -24,12 +24,16 @@ public class DoorSwing : MonoBehaviour, IInteractable
 
     private void ToggleDoor()
     {
-        // this is kinda ass and doesnt really work
-        
         isOpen = !isOpen;
         Quaternion targetRotation = isOpen ? openRotation : closedRotation;
 
-        // Kill any existing tweens on this transform to avoid overlap
+        // Play open/close sound via SoundManager
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlayDoorSound(isOpen, transform.position);
+        }
+
+        // Animate door swing
         transform.DOKill();
         transform.DORotateQuaternion(targetRotation, swingDuration)
             .SetEase(Ease.OutCubic);
