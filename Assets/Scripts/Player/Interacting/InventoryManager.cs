@@ -181,10 +181,19 @@ public class InventoryManager : MonoBehaviour
         return true;
     }
 
+    // public GameObject ReturnSelectedItemInInventory()
+    // {
+    //     GameObject o = inventorySlots[selectedSlot].ReturnItemInSlot().ReturnItemObject();
+    //     return o;
+    // }
+    
     public GameObject ReturnSelectedItemInInventory()
     {
-        GameObject o = inventorySlots[selectedSlot].ReturnItemInSlot().ReturnItemObject();
-        return o;
+        var itemInSlot = inventorySlots[selectedSlot].ReturnItemInSlot();
+        if (itemInSlot == null)
+            return null;
+
+        return itemInSlot.ReturnItemObject();
     }
 
     public void OpenInv()

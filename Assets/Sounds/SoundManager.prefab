@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6112941875594623159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796165904472890262}
+  - component: {fileID: 472491024834287795}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &796165904472890262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112941875594623159}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.151151, y: -2.471975, z: 22.116884}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &472491024834287795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6112941875594623159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be9df748c97c8d4585d2c073f277fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorOpenClip: {fileID: 8300000, guid: 78af55c428b86de4db0baf5e69ebb6e4, type: 3}
+  doorCloseClip: {fileID: 8300000, guid: c6df1f193616e644891dd0d7890fd238, type: 3}
+  footstepClips:
+  - {fileID: 8300000, guid: 6fecfe4d0a4748541a65fbd66f1b5ecd, type: 3}
+  curtainOpenClip: {fileID: 8300000, guid: 162edc293539f904d95c8f3c13996cac, type: 3}
+  curtainCloseClip: {fileID: 8300000, guid: 20f1593fd32cec2488fd544cbc6531bd, type: 3}
+  printerClip: {fileID: 8300000, guid: a0ffdefc0dc51894aa2291ec721c15f4, type: 3}
+  computerOnClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
+  computerOffClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
+  cctvViewClip: {fileID: 8300000, guid: ca59b1d5054e4d74f907d9280136d42c, type: 3}
+  SwitchCameraClip: {fileID: 8300000, guid: f45b641bb7ac7594c9eef6b5557b6d96, type: 3}
+  audioSourcePrefab: {fileID: 240821364981218583, guid: be1453741f8fb804ea6260142ac196fb, type: 3}

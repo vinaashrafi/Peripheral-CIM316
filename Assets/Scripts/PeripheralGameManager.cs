@@ -9,6 +9,7 @@ public class PeripheralGameManager : MonoBehaviour
     [SerializeField] public int totalChores = 10;
     [SerializeField] private float choresCompleted = 0;
     [SerializeField] private TextMeshProUGUI choreText;
+    [SerializeField] private TaskController taskController; // assign in inspector
 
     private void Awake()
     {
@@ -20,7 +21,6 @@ public class PeripheralGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("PeripheralGameManager subscribing to chore completed event.");
         TaskEvents.OnChoreCompleted += HandleChoreComplete;
     }
 
@@ -28,20 +28,19 @@ public class PeripheralGameManager : MonoBehaviour
     {
         TaskEvents.OnChoreCompleted -= HandleChoreComplete;
     }
-    private void HandleChoreComplete()
+    
+    private void HandleChoreComplete(string taskName)
     {
-      
-        choresCompleted += 0.5f; // count half per call
-        Debug.Log($"Chores completed: {choresCompleted}/{totalChores}");
+        Debug.Log($"✅ Task completed: {taskName}");
 
-        if (choreText != null)
-            choreText.text = $"Chores: {choresCompleted}/{totalChores}";
+        // Notify the TaskController manually
+        taskController?.OnChoreCompleted(taskName);
+
+        choresCompleted += 1f;
+        choreText.text = $"Chores: {choresCompleted}/{totalChores}";
 
         if (choresCompleted >= totalChores)
-        {
             Debug.Log("✅ All chores complete! Game over.");
-            // Add win screen or ending logic here
-        }
     }
 
 }

@@ -12,8 +12,7 @@ public class FPController : MonoBehaviour
 
     #region Inspect Variables
 
-    [Header("Inspect Settings")] 
-    public Canvas inspectCanvas;
+    [Header("Inspect Settings")] public Canvas inspectCanvas;
     public KeyCode inspectKey = KeyCode.F;
     public GameObject inspectPanel;
     private Vector3 originalPosition;
@@ -71,6 +70,12 @@ public class FPController : MonoBehaviour
     public bool playerCanMove = true;
     public float walkSpeed = 5f;
     public float maxVelocityChange = 10f;
+
+
+    // for footstep sounds
+    private float footstepTimer = 0f;
+    public float footstepInterval = 100f; // Adjust as needed
+
 
     // Internal Variables
     private bool isWalking = false;
@@ -553,7 +558,7 @@ public class FPController : MonoBehaviour
             {
                 isInspecting = true;
                 objectToInspect = target.transform;
-                
+
                 if (inspectCanvas != null)
                     inspectCanvas.enabled = false;
 
@@ -610,7 +615,7 @@ public class FPController : MonoBehaviour
             }
 
             isInspecting = false;
-            
+
             if (inspectCanvas != null)
                 inspectCanvas.enabled = true;
 
@@ -650,6 +655,7 @@ public class FPController : MonoBehaviour
         #endregion
     }
 
+
     void FixedUpdate()
     {
         #region Movement
@@ -661,13 +667,26 @@ public class FPController : MonoBehaviour
 
             // Checks if player is walking and isGrounded
             // Will allow head bob
-            if (targetVelocity.x != 0 || targetVelocity.z != 0 && isGrounded)
+            // if (targetVelocity.x != 0 || targetVelocity.z != 0 && isGrounded)
+            Vector3 horizontalVelocity = rb.linearVelocity;
+            horizontalVelocity.y = 0;
+
+            if ((targetVelocity.x != 0 || targetVelocity.z != 0) && isGrounded && horizontalVelocity.magnitude > 0.1f)
             {
                 isWalking = true;
+
+                // Play footstep sound
+                footstepTimer -= Time.deltaTime;
+                if (footstepTimer <= 0f)
+                {
+                    SoundManager.Instance.PlayFootstepSound(transform.position);
+                    footstepTimer = footstepInterval;
+                }
             }
             else
             {
                 isWalking = false;
+                footstepTimer = footstepInterval;
             }
 
             // All movement calculations shile sprint is active
@@ -845,4 +864,5 @@ public class FPController : MonoBehaviour
         playerCanMove = true;
         cameraCanMove = true;
     }
+    
 }

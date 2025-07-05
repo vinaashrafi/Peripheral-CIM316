@@ -7,6 +7,8 @@ public class computer : ChoreBase
     [SerializeField] private Camera[] cctvCameras;
     [SerializeField] private Canvas computerCanvas;
     [SerializeField] private Canvas tutorialCanvas;
+    [SerializeField] private Canvas PlayerCanvas;
+    [SerializeField] private Canvas InventoryCanvas;
 
     private int currentCameraIndex = 0;
     private bool isViewingCCTV = false;
@@ -28,7 +30,12 @@ public class computer : ChoreBase
             playerController.DisableInput();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            // Enable the player's HUD canvas here:
+      
+            
         }
+        // Play computer sound at player position
+        SoundManager.Instance.PlayComputerOnSound(playerController.transform.position);
 
         Debug.Log("Started computer chore. Canvas enabled.");
     }
@@ -52,13 +59,23 @@ public class computer : ChoreBase
         foreach (var cam in cctvCameras)
             cam.gameObject.SetActive(false);
         
-
+        // Enable PlayerCanvas  if assigned
+        if (PlayerCanvas != null)
+            PlayerCanvas.gameObject.SetActive(true);
+        // Enable PlayerCanvas  if assigned
+        if (InventoryCanvas != null)
+            InventoryCanvas.gameObject.SetActive(true);
+        
+        
         if (playerController != null)
         {
             playerController.EnableInput();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+        // Play computer sound at player position
+        SoundManager.Instance.PlayComputerOffSound(playerController.transform.position);
+        
 
         Debug.Log("Exited Computer");
     }
@@ -90,8 +107,11 @@ public class computer : ChoreBase
         currentCameraIndex = 0;
         isViewingCCTV = true;
         ActivateCamera(currentCameraIndex);
+        
+        SoundManager.Instance.PlayCCTVLoopSound(playerController.transform.position);
+        Debug.Log("ActivateCameras called: CCTV sound should play");
 
-        Debug.Log("Initial CCTV camera activated.");
+     
     }
 
     private void Update()
@@ -104,6 +124,7 @@ public class computer : ChoreBase
 
         HandleCameraCycleInput();
         HandleExitInput();
+        
         
     }
 
@@ -131,6 +152,10 @@ public class computer : ChoreBase
             // Enable tutorial canvas if assigned
             if (tutorialCanvas != null)
                 tutorialCanvas.gameObject.SetActive(false);
+            
+            SoundManager.Instance.StopCCTVLoopSound();
+            Debug.Log("CCTV sound stopped on exit");
+            
         }
     }
     
@@ -143,6 +168,9 @@ public class computer : ChoreBase
 
         currentCameraIndex = (currentCameraIndex + direction + cctvCameras.Length) % cctvCameras.Length;
         ActivateCamera(currentCameraIndex);
+        // ✅ Play camera switch sound
+        SoundManager.Instance.SwitchCameraSound(playerController.transform.position);
+        Debug.Log("SwitchCamera sound called");
     }
 
     // Activates the camera at the given index and disables the others
