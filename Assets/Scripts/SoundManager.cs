@@ -15,13 +15,12 @@ public class SoundManager : MonoBehaviour
     public AudioClip curtainOpenClip;
     public AudioClip curtainCloseClip;
 
-
+    [Header("Printer Sounds")]
+    public AudioClip printerClip;
     
     [Header("Audio Settings")]
     public AudioSource audioSourcePrefab;
     
-    
-
     private void Awake()
     {
         // Basic Singleton
@@ -67,6 +66,10 @@ public class SoundManager : MonoBehaviour
         PlaySoundAtPosition(clipToPlay, position);
     }
     
+    public void PlayPrinterSound(Vector3 position)
+    {
+        PlaySoundAtPosition(printerClip, position);
+    }
     
     
 }

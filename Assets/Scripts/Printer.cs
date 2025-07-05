@@ -3,11 +3,10 @@ using UnityEngine;
 public class Printer : MonoBehaviour
 {
     [SerializeField] private Animator printerAnimator;
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip printCompleteClip;
+   
     [SerializeField] private bool hasPrinted = false; // Prevent spamming sound
     [SerializeField] private Collider printedItemCollider; // <- reference to child collider
- 
+    
     [SerializeField] private GameObject paperPrefab;       // Your paper prefab
     [SerializeField] private Transform paperSpawnPoint;     // Usually same as PaperAnimator
     private GameObject currentPaper;    
@@ -18,8 +17,6 @@ public class Printer : MonoBehaviour
         if (printerAnimator == null)
             printerAnimator = GetComponent<Animator>();
 
-        if (audioSource == null)
-            audioSource = GetComponent<AudioSource>();
         
         if (printedItemCollider != null)
             printedItemCollider.enabled = false; // make sure it's off initially
@@ -49,8 +46,7 @@ public class Printer : MonoBehaviour
             printerAnimator.SetBool("OnPrinted", true); // Start animation
         }
 
-        if (audioSource != null && printCompleteClip != null)
-            audioSource.PlayOneShot(printCompleteClip);
+        SoundManager.Instance.PlayPrinterSound(transform.position);
 
         hasPrinted = true;
     }
