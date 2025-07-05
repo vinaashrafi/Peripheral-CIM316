@@ -95,6 +95,9 @@ public class CurtainCOntroller : ChoreBase
             transform.DOScale(targetScale, slideDuration)
                 .SetEase(Ease.OutCubic);
         }
+        
+        // Play sound based on closing/opening
+        SoundManager.Instance.PlayCurtainSound(isAtClosedPosition, transform.position);
     
         isAtClosedPosition = !isAtClosedPosition;
 

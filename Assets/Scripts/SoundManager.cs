@@ -11,7 +11,11 @@ public class SoundManager : MonoBehaviour
     [Header("Footstep Sounds")]
     public AudioClip[] footstepClips;
     
-    
+    [Header("Curtain Sounds")]
+    public AudioClip curtainOpenClip;
+    public AudioClip curtainCloseClip;
+
+
     
     [Header("Audio Settings")]
     public AudioSource audioSourcePrefab;
@@ -57,6 +61,12 @@ public class SoundManager : MonoBehaviour
         AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
         PlaySoundAtPosition(clip, position);
     }
+    public void PlayCurtainSound(bool closing, Vector3 position)
+    {
+        AudioClip clipToPlay = closing ? curtainCloseClip : curtainOpenClip;
+        PlaySoundAtPosition(clipToPlay, position);
+    }
+    
     
     
 }
