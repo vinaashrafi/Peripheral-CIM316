@@ -48,6 +48,7 @@ MonoBehaviour:
   totalChores: 10
   choresCompleted: 0
   choreText: {fileID: 0}
+  taskController: {fileID: 6513474375428924807}
 --- !u!114 &6513474375428924807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,3 +63,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   choreListUI: {fileID: 0}
   choreListItemName: Paper
+  choreTextContainer: {fileID: 0}
+  choreTextPrefab: {fileID: 0}
+  choreSequence:
+  - Take Out the Garbage
+  - Wash Dishes
+  - Vacuum
