@@ -7,6 +7,8 @@ public class computer : ChoreBase
     [SerializeField] private Camera[] cctvCameras;
     [SerializeField] private Canvas computerCanvas;
     [SerializeField] private Canvas tutorialCanvas;
+    [SerializeField] private Canvas PlayerCanvas;
+    [SerializeField] private Canvas InventoryCanvas;
 
     private int currentCameraIndex = 0;
     private bool isViewingCCTV = false;
@@ -28,6 +30,9 @@ public class computer : ChoreBase
             playerController.DisableInput();
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            // Enable the player's HUD canvas here:
+      
+            
         }
         // Play computer sound at player position
         SoundManager.Instance.PlayComputerOnSound(playerController.transform.position);
@@ -54,7 +59,14 @@ public class computer : ChoreBase
         foreach (var cam in cctvCameras)
             cam.gameObject.SetActive(false);
         
-
+        // Enable PlayerCanvas  if assigned
+        if (PlayerCanvas != null)
+            PlayerCanvas.gameObject.SetActive(true);
+        // Enable PlayerCanvas  if assigned
+        if (InventoryCanvas != null)
+            InventoryCanvas.gameObject.SetActive(true);
+        
+        
         if (playerController != null)
         {
             playerController.EnableInput();

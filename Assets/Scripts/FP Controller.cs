@@ -864,4 +864,5 @@ public class FPController : MonoBehaviour
         playerCanMove = true;
         cameraCanMove = true;
     }
+    
 }

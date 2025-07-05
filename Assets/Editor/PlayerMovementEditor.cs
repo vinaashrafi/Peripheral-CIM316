@@ -450,6 +450,7 @@ public class PlayerMovementEditor : Editor
             new GUIContent("Inspect Canvas", "Canvas to enable during inspect mode."),
             fpc.inspectCanvas, typeof(Canvas), true);
         
+        
 
         EditorGUILayout.Space();
 
