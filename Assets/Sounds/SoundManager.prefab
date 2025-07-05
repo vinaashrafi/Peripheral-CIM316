@@ -46,4 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOpenClip: {fileID: 8300000, guid: 78af55c428b86de4db0baf5e69ebb6e4, type: 3}
   doorCloseClip: {fileID: 8300000, guid: c6df1f193616e644891dd0d7890fd238, type: 3}
-  audioSourcePrefab: {fileID: 0}
+  footstepClips:
+  - {fileID: 8300000, guid: 6f491c0b30d7f1d4691a7e5073250950, type: 3}
+  audioSourcePrefab: {fileID: 240821364981218583, guid: be1453741f8fb804ea6260142ac196fb, type: 3}

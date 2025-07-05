@@ -130,6 +130,11 @@ public class PlayerMovementEditor : Editor
             EditorGUILayout.Slider(
                 new GUIContent("Walk Speed", "Determines how fast the player will move while walking."), fpc.walkSpeed,
                 .1f, fpc.sprintSpeed);
+        
+        // Add footstep interval slider here:
+        fpc.footstepInterval = EditorGUILayout.Slider(
+            new GUIContent("Footstep Interval", "Time (seconds) between footstep sounds while walking."),
+            fpc.footstepInterval, 0.1f, 2f);
         GUI.enabled = true;
 
         EditorGUILayout.Space();
