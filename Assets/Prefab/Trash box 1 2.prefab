@@ -242,13 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46e3c21e142ee4a419195e3d59e74778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToComplete: 1
+  timeToComplete: 2.5
   currentProgress: 0
   isWorking: 0
   animator: {fileID: 6830815454754316012}
   openTrigger: OpenBin
   closeTrigger: CloseBin
   isBinOpen: 0
+  binBagCollider: {fileID: 0}
 --- !u!64 &2842011538645266289
 MeshCollider:
   m_ObjectHideFlags: 0

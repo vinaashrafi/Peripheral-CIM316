@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 8006551923268630862}
   - component: {fileID: 9089590897353061397}
   - component: {fileID: 2750043263893647237}
-  - component: {fileID: 7971113241157320280}
   - component: {fileID: 7325894010818850046}
   m_Layer: 0
   m_Name: Trash bag 1
@@ -192,34 +191,12 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.17
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0.12, z: 0}
---- !u!95 &7971113241157320280
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437211095359332480}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ed34cbea0b548a54c86ca13398256918, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7325894010818850046
 MonoBehaviour:
   m_ObjectHideFlags: 0

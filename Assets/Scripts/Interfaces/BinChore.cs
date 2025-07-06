@@ -9,14 +9,22 @@ public class BinChore : ChoreBase
 
     public bool isBinOpen = false;
 
+    public Collider binBagCollider; // Drag the bin bag collider here in the inspector
+    
+    
     public override void StartChore()
     {
         base.StartChore();
-
+        
+        // bin bag collider starts disabled
+        if (binBagCollider != null)
+            binBagCollider.enabled = false;
+        
         if (!isBinOpen)
             TriggerOpenAnimation();
         else
             TriggerCloseAnimation();
+
     }
 
     public override void CompleteChore()
@@ -26,6 +34,10 @@ public class BinChore : ChoreBase
         isBinOpen = !isBinOpen;
         Debug.Log($"CompleteChore called. Bin is now {(isBinOpen ? "OPEN" : "CLOSED")}");
 
+        // Toggle the bin bag collider
+        if (binBagCollider != null)
+            binBagCollider.enabled = isBinOpen;
+        
         // Only reset triggers if bin is now closed
         if (!isBinOpen && animator != null)
         {
@@ -52,8 +64,17 @@ public class BinChore : ChoreBase
         }
     }
 
-    public void TurnOffCollider()
+    // Called via Animation Event
+    public void TurnOnBinBagCollider()
     {
-        GetComponent<Collider>().enabled = false;
+        if (binBagCollider != null)
+            binBagCollider.enabled = true;
+    }
+
+    // Called via Animation Event
+    public void TurnOffBinBagCollider()
+    {
+        if (binBagCollider != null)
+            binBagCollider.enabled = false;
     }
 }
