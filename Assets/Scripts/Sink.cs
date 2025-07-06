@@ -2,50 +2,71 @@ using UnityEngine;
 
 public class Sink : ChoreBase
 {
-    [SerializeField] private GameObject sinkWaterToggle;      // Visual water stream
+    [Header("Visuals")]
+    [SerializeField] private GameObject sinkWaterToggle;  // Visual water stream
     [SerializeField] private GameObject sinkBubbles;      // GameObject holding particle system
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string onTrigger = "TurnOnSink";
+    [SerializeField] private string offTrigger = "TurnOffSink";
+
     public static bool IsSinkOn { get; private set; } = false;
+
+    public override void StartChore()
+    {
+        base.StartChore();
+
+        if (!IsSinkOn)
+            TriggerOnAnimation();
+        else
+            TriggerOffAnimation();
+    }
 
     public override void CompleteChore()
     {
         base.CompleteChore();
 
-        IsSinkOn = !IsSinkOn; // Flip sink state
+        IsSinkOn = !IsSinkOn;
 
-        // Toggle water visual
+        // Toggle visuals
         if (sinkWaterToggle != null)
             sinkWaterToggle.SetActive(IsSinkOn);
 
-        // Toggle particle GameObject
         if (sinkBubbles != null)
             sinkBubbles.SetActive(IsSinkOn);
 
         Debug.Log("Sink is now " + (IsSinkOn ? "ON" : "OFF"));
-    }
-    
 
-    // public override void StartChore()
-    // {
-    //     base.StartChore();
-    //
-    //     if (sinkObjectToToggle != null)
-    //         sinkObjectToToggle.SetActive(true); // Turn it ON when the chore starts
-    // }
-    //
-    // public override void CompleteChore()
-    // {
-    //     base.CompleteChore();
-    //
-    //     if (sinkObjectToToggle != null)
-    //         sinkObjectToToggle.SetActive(false); // Turn it OFF when the chore finishes
-    // }
-    //
-    // public override void StopChore()
-    // {
-    //     base.StopChore();
-    //
-    //     if (sinkObjectToToggle != null)
-    //         sinkObjectToToggle.SetActive(false); // Optional: also turn it off if the chore gets canceled
-    // }
+        // Trigger animation
+        if (IsSinkOn)
+            TriggerOnAnimation();
+        else
+            TriggerOffAnimation();
+
+        // Optional: Reset triggers if needed
+        if (!IsSinkOn && animator != null)
+        {
+            animator.ResetTrigger(onTrigger);
+            animator.ResetTrigger(offTrigger);
+        }
+    }
+
+    private void TriggerOnAnimation()
+    {
+        if (animator != null && !string.IsNullOrEmpty(onTrigger))
+        {
+            Debug.Log("Triggering TurnOnSink animation");
+            animator.SetTrigger(onTrigger);
+        }
+    }
+
+    private void TriggerOffAnimation()
+    {
+        if (animator != null && !string.IsNullOrEmpty(offTrigger))
+        {
+            Debug.Log("Triggering TurnOffSink animation");
+            animator.SetTrigger(offTrigger);
+        }
+    }
 }
