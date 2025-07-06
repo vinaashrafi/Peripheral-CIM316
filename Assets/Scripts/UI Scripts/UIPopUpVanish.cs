@@ -18,8 +18,9 @@ public class UIPopUpVanish : PopUpBase
             player = PeripheralGameManager.Instance.returnFPController();
         }
 
-        IInteractable interactable = player.ReturnInteractableFromRayCast();
-        if (interactable != null)
+        GameObject interactable = player.ReturnInteractableFromRayCast();
+      
+        if (interactable == parentGO)
         {
             popUpImage.SetActive(true);
         }

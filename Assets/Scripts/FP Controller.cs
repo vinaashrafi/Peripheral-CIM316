@@ -859,7 +859,7 @@ public class FPController : MonoBehaviour
 
         return null;
     }
-    public IInteractable ReturnInteractableFromRayCast()
+    public GameObject ReturnInteractableFromRayCast()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 2f))
@@ -867,7 +867,7 @@ public class FPController : MonoBehaviour
             IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
             if (interactable != null)
             {
-                return interactable;
+                return hit.collider.gameObject;
             }
             else
             {
