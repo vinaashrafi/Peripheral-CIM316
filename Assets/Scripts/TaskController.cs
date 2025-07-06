@@ -7,14 +7,14 @@ public class TaskController : MonoBehaviour
     [SerializeField] private GameObject choreListUI;
     [SerializeField] private string choreListItemName = "Paper";
     [SerializeField] private Transform choreTextContainer; // parent object that holds chore text lines
-    [SerializeField] private GameObject choreTextPrefab;   // prefab with a TMP_Text component
+    [SerializeField] private GameObject choreTextPrefab; // prefab with a TMP_Text component
 
     [SerializeField] private List<string> choreSequence = new List<string> { "Bin", "Wash Dishes", "Feed Cat" };
 
     private int currentChoreIndex = 0;
     private List<TextMeshProUGUI> choreTexts = new List<TextMeshProUGUI>();
 
-    
+
     private void Awake()
     {
         if (choreListUI == null)
@@ -24,6 +24,7 @@ public class TaskController : MonoBehaviour
             if (choreListUI == null)
                 Debug.LogWarning("choreListUI could not be found in the scene by name.");
         }
+
 
         if (choreTextPrefab == null)
         {
@@ -43,8 +44,11 @@ public class TaskController : MonoBehaviour
             else
                 Debug.LogWarning("choreTextContainer not assigned and 'Task Parent' GameObject not found.");
         }
-        
+
     }
+
+
+
 
     private void Start()
     {
