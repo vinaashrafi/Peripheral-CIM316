@@ -10,7 +10,7 @@ public class PeripheralGameManager : MonoBehaviour
     [SerializeField] private float choresCompleted = 0;
     [SerializeField] private TextMeshProUGUI choreText;
     [SerializeField] private TaskController taskController; // assign in inspector
-
+    public GameObject rain;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -43,4 +43,8 @@ public class PeripheralGameManager : MonoBehaviour
             Debug.Log("✅ All chores complete! Game over.");
     }
 
+    public void RainStart()
+    {
+        rain.SetActive(true);
+    }
 }
