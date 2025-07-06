@@ -679,7 +679,15 @@ public class FPController : MonoBehaviour
                 footstepTimer -= Time.deltaTime;
                 if (footstepTimer <= 0f)
                 {
-                    SoundManager.Instance.PlayFootstepSound(transform.position);
+                    // SoundManager.Instance.PlayFootstepSound(transform.position);
+                    if (SoundManager.Instance != null)
+                    {
+                        SoundManager.Instance.PlayFootstepSound(transform.position);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("SoundManager.Instance is null! Cannot play footstep sound.");
+                    }
                     footstepTimer = footstepInterval;
                 }
             }
