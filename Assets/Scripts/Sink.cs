@@ -8,19 +8,14 @@ public class Sink : ChoreBase
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
-    [SerializeField] private string onTrigger = "TurnOnSink";
-    [SerializeField] private string offTrigger = "TurnOffSink";
+    [SerializeField] private string boolParameter = "SinkOn"; // replace onTrigger/offTrigger
 
     public static bool IsSinkOn { get; private set; } = false;
 
     public override void StartChore()
     {
         base.StartChore();
-
-        if (!IsSinkOn)
-            TriggerOnAnimation();
-        else
-            TriggerOffAnimation();
+        
     }
 
     public override void CompleteChore()
@@ -29,7 +24,6 @@ public class Sink : ChoreBase
 
         IsSinkOn = !IsSinkOn;
 
-        // Toggle visuals
         if (sinkWaterToggle != null)
             sinkWaterToggle.SetActive(IsSinkOn);
 
@@ -38,35 +32,24 @@ public class Sink : ChoreBase
 
         Debug.Log("Sink is now " + (IsSinkOn ? "ON" : "OFF"));
 
-        // Trigger animation
-        if (IsSinkOn)
-            TriggerOnAnimation();
-        else
-            TriggerOffAnimation();
-
-        // Optional: Reset triggers if needed
-        if (!IsSinkOn && animator != null)
-        {
-            animator.ResetTrigger(onTrigger);
-            animator.ResetTrigger(offTrigger);
-        }
+        if (animator != null)
+            animator.SetBool(boolParameter, IsSinkOn);
     }
-
-    private void TriggerOnAnimation()
-    {
-        if (animator != null && !string.IsNullOrEmpty(onTrigger))
-        {
-            Debug.Log("Triggering TurnOnSink animation");
-            animator.SetTrigger(onTrigger);
-        }
-    }
-
-    private void TriggerOffAnimation()
-    {
-        if (animator != null && !string.IsNullOrEmpty(offTrigger))
-        {
-            Debug.Log("Triggering TurnOffSink animation");
-            animator.SetTrigger(offTrigger);
-        }
-    }
+    // private void TriggerOnAnimation()
+    // {
+    //     if (animator != null && !string.IsNullOrEmpty(onTrigger))
+    //     {
+    //         Debug.Log("Triggering TurnOnSink animation");
+    //         animator.SetTrigger(onTrigger);
+    //     }
+    // }
+    //
+    // private void TriggerOffAnimation()
+    // {
+    //     if (animator != null && !string.IsNullOrEmpty(offTrigger))
+    //     {
+    //         Debug.Log("Triggering TurnOffSink animation");
+    //         animator.SetTrigger(offTrigger);
+    //     }
+    // }
 }
