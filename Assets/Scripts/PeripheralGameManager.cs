@@ -11,6 +11,7 @@ public class PeripheralGameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI choreText;
     [SerializeField] private TaskController taskController; // assign in inspector
     public GameObject rain;
+    public FPController _player;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,6 +28,17 @@ public class PeripheralGameManager : MonoBehaviour
     private void OnDisable()
     {
         TaskEvents.OnChoreCompleted -= HandleChoreComplete;
+    }
+    
+    public FPController returnFPController()
+    {
+        return _player;
+    }
+
+    public void SetFPController(FPController player)
+    {
+        _player = player;
+        
     }
     
     private void HandleChoreComplete(string taskName)
