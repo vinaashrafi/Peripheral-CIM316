@@ -23,7 +23,7 @@ public class DishTracker : MonoBehaviour
 
     public void NotifyDishDone(GameObject dish)
     {
-        if (dishes.Contains(dish))
+        if (dish != null && dishes.Contains(dish))
         {
             dishes.Remove(dish);
             Debug.Log($"✅ Dish cleaned. {dishes.Count} remaining.");
@@ -32,7 +32,6 @@ public class DishTracker : MonoBehaviour
             {
                 Debug.Log("🍽️ All dishes cleaned. Chore complete!");
                 TaskEvents.InvokeChoreCompleted("Wash Dishes");
-                
             }
         }
     }
