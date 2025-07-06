@@ -24,6 +24,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip cctvViewClip;
     public AudioClip SwitchCameraClip;
     
+    [Header("Sink Sounds")]
+    public AudioClip sinkOnClip;
+    public AudioClip sinkOffClip;
+    private AudioSource sinkAudioSource;
     
     [Header("Audio Settings")]
     public AudioSource audioSourcePrefab;
@@ -119,5 +123,29 @@ public class SoundManager : MonoBehaviour
         }
     }
     
+
+
+    public void StartSinkLoopSound(Vector3 position)
+    {
+        if (sinkAudioSource == null && audioSourcePrefab != null && sinkOnClip != null)
+        {
+            sinkAudioSource = Instantiate(audioSourcePrefab, position, Quaternion.identity);
+            sinkAudioSource.clip = sinkOnClip;
+            sinkAudioSource.loop = true;
+            sinkAudioSource.Play();
+            Debug.Log("Sink loop sound playing");
+        }
+    }
+
+    public void StopSinkLoopSound()
+    {
+        if (sinkAudioSource != null)
+        {
+            sinkAudioSource.Stop();
+            Destroy(sinkAudioSource.gameObject);
+            sinkAudioSource = null;
+            Debug.Log("Sink loop sound stopped");
+        }
+    }
     
 }

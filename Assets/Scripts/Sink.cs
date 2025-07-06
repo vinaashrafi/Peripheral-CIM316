@@ -34,6 +34,19 @@ public class Sink : ChoreBase
 
         if (animator != null)
             animator.SetBool(boolParameter, IsSinkOn);
+        
+        // Play sound
+        if (SoundManager.Instance != null)
+        {
+            if (IsSinkOn)
+                SoundManager.Instance?.StartSinkLoopSound(transform.position);
+            else
+                SoundManager.Instance?.StopSinkLoopSound();
+            
+        }
+        
+        
+        
     }
     // private void TriggerOnAnimation()
     // {

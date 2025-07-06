@@ -53,8 +53,7 @@ MonoBehaviour:
   sinkWaterToggle: {fileID: 9011722205966904871}
   sinkBubbles: {fileID: 1608707085299933164}
   animator: {fileID: 1945275780738640330}
-  onTrigger: TurnOnSink
-  offTrigger: TurnOffSink
+  boolParameter: SinkOn
 --- !u!95 &1945275780738640330
 Animator:
   serializedVersion: 7
@@ -301,9 +300,9 @@ Transform:
   m_GameObject: {fileID: 9011722205966904871}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.277, y: 0, z: -0.016}
-  m_LocalScale: {x: 0.26530612, y: 0.26530612, z: 0.26530612}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0.277, y: 0, z: -0}
+  m_LocalScale: {x: 0.08, y: 0.23, z: 0.08}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 901966150176037122}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
