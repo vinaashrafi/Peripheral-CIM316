@@ -51,6 +51,7 @@ MonoBehaviour:
   curtainOpenClip: {fileID: 8300000, guid: 162edc293539f904d95c8f3c13996cac, type: 3}
   curtainCloseClip: {fileID: 8300000, guid: 20f1593fd32cec2488fd544cbc6531bd, type: 3}
   printerClip: {fileID: 8300000, guid: a0ffdefc0dc51894aa2291ec721c15f4, type: 3}
+  catfoodClip: {fileID: 8300000, guid: 7f12c16bc733cd940bd8d91ded3ae3fd, type: 3}
   computerOnClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
   computerOffClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
   cctvViewClip: {fileID: 8300000, guid: 99b5746db9b17904db4be11cc261ec59, type: 3}

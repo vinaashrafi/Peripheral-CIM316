@@ -88,6 +88,7 @@ public class FeedCat : MonoBehaviour
         {
             foodObject.SetActive(true);
             foodPresent = true;
+            SoundManager.Instance.PLayCatFoodSound(transform.position);
         }
     }
 

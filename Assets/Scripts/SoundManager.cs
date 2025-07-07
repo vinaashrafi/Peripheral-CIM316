@@ -18,6 +18,10 @@ public class SoundManager : MonoBehaviour
     [Header("Printer Sounds")]
     public AudioClip printerClip;
     
+    
+    [Header("Cat Food Sounds")]
+    public AudioClip catfoodClip;
+    
     [Header("Computer / CCTV Sounds")]
     public AudioClip computerOnClip;
     public AudioClip computerOffClip;
@@ -146,6 +150,11 @@ public class SoundManager : MonoBehaviour
             sinkAudioSource = null;
             Debug.Log("Sink loop sound stopped");
         }
+    }
+
+    public void PLayCatFoodSound(Vector3 position)
+    {
+        PlaySoundAtPosition(catfoodClip, position);
     }
     
 }
