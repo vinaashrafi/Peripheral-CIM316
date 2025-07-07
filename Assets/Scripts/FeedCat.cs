@@ -5,12 +5,16 @@ public class FeedCat : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private string requiredTag = "Player";
-    [SerializeField] private string animatorBoolParameter = "EmptyCan"; // <- the bool you want to trigger
-    [SerializeField] private SphereCollider rangeTrigger; // Auto-assigned if not manually set
+    [SerializeField] private string animatorBoolParameter = "EmptyCan";
+    [SerializeField] private SphereCollider rangeTrigger;
+
+    [Header("Food Settings")]
+    [SerializeField] private GameObject foodObject; // The child object to toggle on/off
 
     [SerializeField] private GameObject playerInRange = null;
-    [SerializeField]  private Animator canAnimator = null;
+    [SerializeField] private Animator canAnimator = null;
     [SerializeField] private bool hasEmptied = false;
+    private bool foodPresent = false;
 
     private void Start()
     {
@@ -19,11 +23,15 @@ public class FeedCat : MonoBehaviour
 
         if (rangeTrigger != null)
             rangeTrigger.isTrigger = true;
+
+        // Ensure food starts hidden
+        if (foodObject != null)
+            foodObject.SetActive(false);
     }
 
     private void Update()
     {
-        if (playerInRange != null && canAnimator != null && !hasEmptied)
+        if (playerInRange != null && canAnimator != null && !hasEmptied && !foodPresent)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -31,8 +39,10 @@ public class FeedCat : MonoBehaviour
                 canAnimator.SetBool(animatorBoolParameter, true);
                 hasEmptied = true;
 
-                // Optional: trigger event
+                ShowFood();
+
                 TaskEvents.InvokeChoreCompleted("Feed Cat");
+                Debug.Log("Fed the cat.");
             }
         }
     }
@@ -40,12 +50,11 @@ public class FeedCat : MonoBehaviour
     public void SetHeldCanAnimator(Animator animator)
     {
         canAnimator = animator;
-        hasEmptied = false; // reset if you pick up a new can
+        hasEmptied = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the collider is a cat food can (or has the canTag)
         if (other.CompareTag("CatFood"))
         {
             playerInRange = other.gameObject;
@@ -67,9 +76,29 @@ public class FeedCat : MonoBehaviour
             if (animator == canAnimator)
             {
                 canAnimator = null;
-                hasEmptied = false; // reset when can leaves range
+                hasEmptied = false;
                 Debug.Log("Cat food can left bowl range.");
             }
+        }
+    }
+
+    private void ShowFood()
+    {
+        if (foodObject != null)
+        {
+            foodObject.SetActive(true);
+            foodPresent = true;
+        }
+    }
+
+    // 🔓 Call this from the cat script to "eat" the food
+    public void CatEatFood()
+    {
+        if (foodObject != null && foodPresent)
+        {
+            foodObject.SetActive(false);
+            foodPresent = false;
+            Debug.Log("Cat has eaten the food. Bowl can be refilled.");
         }
     }
 }

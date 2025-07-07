@@ -52,6 +52,7 @@ MonoBehaviour:
   taskController: {fileID: 6513474375428924807}
   rain: {fileID: 0}
   _player: {fileID: 0}
+  fade: {fileID: 0}
 --- !u!114 &6513474375428924807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +72,7 @@ MonoBehaviour:
   choreSequence:
   - Take out the rubbish
   - Wash Dishes
-  - Vacuum
+  - Feed Cat
   greenColour: {r: 0.754717, g: 0.6364328, b: 0.23139909, a: 1}
   redColour: {r: 0.34, g: 0.34, b: 0.34, a: 1}
 --- !u!114 &225555362779914957
