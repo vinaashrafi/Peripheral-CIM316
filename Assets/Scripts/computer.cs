@@ -84,9 +84,18 @@ public class computer : ChoreBase
     public void ActivateCameras()
     {
         // Disable all canvases in the scene
-        foreach (var canvas in FindObjectsOfType<Canvas>())
-            canvas.gameObject.SetActive(false);
+        // foreach (var canvas in FindObjectsOfType<Canvas>())
+        //     canvas.gameObject.SetActive(false);
 
+        
+            
+        if (computerCanvas != null)
+            computerCanvas.gameObject.SetActive(false);
+            
+        // Enable tutorial canvas if assigned
+        if (InventoryCanvas != null)
+            InventoryCanvas.gameObject.SetActive(false);
+        
         // Enable tutorial canvas if assigned
         if (tutorialCanvas != null)
             tutorialCanvas.gameObject.SetActive(true);

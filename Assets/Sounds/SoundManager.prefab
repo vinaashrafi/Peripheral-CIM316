@@ -55,7 +55,7 @@ MonoBehaviour:
   computerOnClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
   computerOffClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
   cctvViewClip: {fileID: 8300000, guid: 99b5746db9b17904db4be11cc261ec59, type: 3}
-  SwitchCameraClip: {fileID: 8300000, guid: f45b641bb7ac7594c9eef6b5557b6d96, type: 3}
+  SwitchCameraClip: {fileID: 8300000, guid: b4a846585f3235d4b9b4edbd1bb8a128, type: 3}
   sinkOnClip: {fileID: 8300000, guid: 99643987e15ee9e47b81aea939627a16, type: 3}
   sinkOffClip: {fileID: 8300000, guid: aebd448657037aa41afadb803385ac71, type: 3}
   audioSourcePrefab: {fileID: 240821364981218583, guid: be1453741f8fb804ea6260142ac196fb, type: 3}
