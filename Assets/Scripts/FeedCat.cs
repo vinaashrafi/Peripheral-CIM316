@@ -41,7 +41,7 @@ public class FeedCat : MonoBehaviour
 
                 ShowFood();
 
-                TaskEvents.InvokeChoreCompleted("Feed Cat");
+           
                 Debug.Log("Fed the cat.");
             }
         }
@@ -89,6 +89,7 @@ public class FeedCat : MonoBehaviour
             foodObject.SetActive(true);
             foodPresent = true;
             SoundManager.Instance.PLayCatFoodSound(transform.position);
+            TaskEvents.InvokeChoreCompleted("Feed Cat");
         }
     }
 

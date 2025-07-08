@@ -5,14 +5,16 @@ public class PeripheralGameManager : MonoBehaviour
 {
     public static PeripheralGameManager Instance;
 
-    [Header("Chore Tracking")]
-    [SerializeField] public int totalChores = 10;
-    [SerializeField] private float choresCompleted = 0;
     [SerializeField] private TextMeshProUGUI choreText;
-    [SerializeField] private TaskController taskController; // assign in inspector
+    [SerializeField] private TaskController taskController; // Assign in inspector
+
+    [SerializeField] private bool allChoresDone = false; // For inspector view, read-only
+    
+    
     public GameObject rain;
     public FPController _player;
     public FadeController fade;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -41,29 +43,40 @@ public class PeripheralGameManager : MonoBehaviour
         _player = player;
         
     }
-    
+
     private void HandleChoreComplete(string taskName)
     {
+        taskName = taskName.Trim();
+
         Debug.Log($"✅ Task completed: {taskName}");
 
-        // Notify the TaskController manually
+        // Tell TaskController to update its UI state
         taskController?.OnChoreCompleted(taskName);
 
-        choresCompleted += 1f;
-        choreText.text = $"Chores: {choresCompleted}/{totalChores}";
+        // Update UI count based on TaskController's completed chores count
+        int completedCount = taskController != null ? taskController.GetCompletedChoreCount() : 0;
+        int totalChores = taskController != null ? taskController.GetChoreCount() : 0;
 
-        if (choresCompleted >= totalChores)
-            Debug.Log("✅ All chores complete! Game over.");
+        // choreText.text = $"Chores: {completedCount}/{totalChores}";
+
+        allChoresDone = (completedCount >= totalChores && totalChores > 0); 
+        
+        if (allChoresDone)
+        {
+            Debug.Log("🎉 All chores completed! GO TO SLEEP");
+            StartSleep(); // Act on the flag being true
+        }
     }
 
     public void RainStart()
     {
         rain.SetActive(true);
     }
-    
+
     public void StartSleep()
     {
         fade.StartFadeIn();
+        _player.DisableInput();
     }
 
     public void StartWakeUp()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,21 +10,19 @@ public class TaskController : MonoBehaviour
     [SerializeField] private Transform choreTextContainer; // parent object that holds chore text lines
     [SerializeField] private GameObject choreTextPrefab;   // prefab with a TMP_Text component
 
-    [SerializeField] private List<string> choreSequence = new List<string> { "Take out the rubbish", " Wash Dishes", "Feed Cat" };
+    [SerializeField] private List<string> choreSequence = new List<string> { "Take out the rubbish", "Wash Dishes", "Cat" };
 
-    private int currentChoreIndex = 0;
-    private List<TextMeshProUGUI> choreTexts = new List<TextMeshProUGUI>();
+    [SerializeField]  private List<TextMeshProUGUI> choreTexts = new List<TextMeshProUGUI>();
+    [SerializeField]   private HashSet<string> completedChores = new HashSet<string>();
 
     public Color greenColour;
     public Color redColour;
 
-    
     private void Awake()
     {
         if (choreListUI == null)
         {
-            choreListUI = GameObject.Find("TaskListUI"); // Replace with actual GameObject name in your scene
-
+            choreListUI = GameObject.Find("TaskListUI");
             if (choreListUI == null)
                 Debug.LogWarning("choreListUI could not be found in the scene by name.");
         }
@@ -37,7 +36,6 @@ public class TaskController : MonoBehaviour
                 Debug.LogWarning("choreTextPrefab not assigned and 'Task Line' GameObject not found.");
         }
 
-
         if (choreTextContainer == null)
         {
             GameObject containerGO = GameObject.Find("TaskParent");
@@ -46,7 +44,6 @@ public class TaskController : MonoBehaviour
             else
                 Debug.LogWarning("choreTextContainer not assigned and 'Task Parent' GameObject not found.");
         }
-        
     }
 
     private void Start()
@@ -54,7 +51,7 @@ public class TaskController : MonoBehaviour
         if (choreSequence.Count == 0 || choreTextPrefab == null || choreTextContainer == null)
             return;
 
-        // Only show current task at the start
+        // Start by showing only the first chore
         AddChoreLine(choreSequence[0], greenColour);
     }
 
@@ -79,24 +76,49 @@ public class TaskController : MonoBehaviour
 
     public void OnChoreCompleted(string choreName)
     {
-        if (currentChoreIndex >= choreSequence.Count) return;
+        choreName = choreName.Trim();
 
-        // If the current chore was completed
-        if (choreSequence[currentChoreIndex] == choreName)
+        // Ignore if already completed
+        if (completedChores.Contains(choreName))
+            return;
+
+        completedChores.Add(choreName);
+
+        // Update existing chore line UI if visible
+        for (int i = 0; i < choreTexts.Count; i++)
         {
-            // Change current line to red
-            choreTexts[currentChoreIndex].color = redColour;
-            choreTexts[currentChoreIndex].text = $"<s>{choreName}";
-            
-
-            currentChoreIndex++;
-
-            // Add next task in green
-            if (currentChoreIndex < choreSequence.Count)
+            string existingText = choreSequence[i].Trim();
+            if (string.Equals(existingText, choreName, StringComparison.OrdinalIgnoreCase))
             {
-                AddChoreLine(choreSequence[currentChoreIndex], greenColour);
+                choreTexts[i].color = redColour;
+                choreTexts[i].text = $"<s>{existingText}</s>";
             }
         }
+
+        // Reveal the next chore in the sequence, regardless of order completed
+        if (choreTexts.Count < choreSequence.Count)
+        {
+            string nextChore = choreSequence[choreTexts.Count].Trim();
+
+            if (completedChores.Contains(nextChore))
+            {
+                AddChoreLine($"<s>{nextChore}</s>", redColour);
+            }
+            else
+            {
+                AddChoreLine(nextChore, greenColour);
+            }
+        }
+    }
+
+    public int GetChoreCount()
+    {
+        return choreSequence.Count;
+    }
+
+    public int GetCompletedChoreCount()
+    {
+        return completedChores.Count;
     }
 
     private void AddChoreLine(string text, Color color)
