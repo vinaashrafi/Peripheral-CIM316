@@ -379,6 +379,34 @@ public class FPController : MonoBehaviour
 
         #endregion
 
+
+        #region UITextPromt
+
+        if (!isInspecting && InventoryManager.Current.ReturnSelectedItemInInventory() == null)
+        {
+            GameObject target = RayCastFromCamera();
+
+            if (target != null)
+            {
+                // Show appropriate prompt
+                if (target.GetComponent<IPickupable>() != null)
+                {
+                    InteractionUI.Instance.ShowPrompt(InteractionUI.Instance.GetPickupInspectPrompt());
+                }
+                else
+                {
+                    InteractionUI.Instance.HidePrompt();
+                }
+            }
+            else
+            {
+                InteractionUI.Instance.HidePrompt();
+            }
+        }
+
+        #endregion
+        
+
         #region Pickup
 
         if (!isInspecting)
@@ -386,6 +414,7 @@ public class FPController : MonoBehaviour
             if (Input.GetKeyDown(pickupKey))
             {
                 GameObject target = RayCastFromCamera();
+
                 if (target)
                 {
                     // --- Prioritize chores ---
@@ -462,6 +491,13 @@ public class FPController : MonoBehaviour
                     //     return;
                     // }
                 }
+
+              
+            }
+
+            if (!isInspecting && InventoryManager.Current.ReturnSelectedItemInInventory() != null)
+            {
+                InteractionUI.Instance.ShowPrompt(InteractionUI.Instance.GetDropPrompt());
             }
         }
 
@@ -493,6 +529,8 @@ public class FPController : MonoBehaviour
                     {
                         pickupable.Drop(playerHandTransform);
                         heldItem = null;
+                        // ✅ Hide the prompt after drop
+                        InteractionUI.Instance.HidePrompt();
                     }
                 }
             }
@@ -594,7 +632,7 @@ public class FPController : MonoBehaviour
                 DisableInput();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                
+
                 Item item = target.GetComponent<Item>();
                 if (item != null && DialogueManager.Current != null)
                 {
@@ -929,5 +967,3 @@ public class FPController : MonoBehaviour
         }
     }
 }
-
-
