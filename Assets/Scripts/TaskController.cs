@@ -7,132 +7,101 @@ public class TaskController : MonoBehaviour
 {
     [SerializeField] private GameObject choreListUI;
     [SerializeField] private string choreListItemName = "Paper";
-    [SerializeField] private Transform choreTextContainer; // parent object that holds chore text lines
-    [SerializeField] private GameObject choreTextPrefab;   // prefab with a TMP_Text component
+    [SerializeField] private TextMeshProUGUI choreListText;
 
     [SerializeField] private List<string> choreSequence = new List<string> { "Take out the rubbish", "Wash Dishes", "Feed Cat" };
+    private HashSet<string> completedChores = new HashSet<string>();
 
-    [SerializeField]  private List<TextMeshProUGUI> choreTexts = new List<TextMeshProUGUI>();
-    [SerializeField]   private HashSet<string> completedChores = new HashSet<string>();
+    public Color greenColour = Color.white;
+    public Color redColour = Color.red;
 
-    public Color greenColour;
-    public Color redColour;
+    private int choresRevealed = 1;
 
     private void Awake()
     {
         if (choreListUI == null)
-        {
             choreListUI = GameObject.Find("TaskListUI");
-            if (choreListUI == null)
-                Debug.LogWarning("choreListUI could not be found in the scene by name.");
-        }
 
-        if (choreTextPrefab == null)
+        if (choreListText == null)
         {
-            GameObject prefabGO = GameObject.Find("TaskLine");
-            if (prefabGO != null)
-                choreTextPrefab = prefabGO;
-            else
-                Debug.LogWarning("choreTextPrefab not assigned and 'Task Line' GameObject not found.");
-        }
-
-        if (choreTextContainer == null)
-        {
-            GameObject containerGO = GameObject.Find("TaskParent");
-            if (containerGO != null)
-                choreTextContainer = containerGO.transform;
-            else
-                Debug.LogWarning("choreTextContainer not assigned and 'Task Parent' GameObject not found.");
+            GameObject textGO = GameObject.Find("TaskListText");
+            if (textGO != null)
+                choreListText = textGO.GetComponent<TextMeshProUGUI>();
         }
     }
 
     private void Start()
     {
-        if (choreSequence.Count == 0 || choreTextPrefab == null || choreTextContainer == null)
+        if (choreSequence.Count == 0 || choreListText == null)
+        {
+            Debug.LogWarning("Missing chore list or text component.");
             return;
+        }
 
-        // Start by showing only the first chore
-        AddChoreLine(choreSequence[0], greenColour);
+        UpdateChoreListText();
     }
 
     private void Update()
     {
-        GameObject itemGO = null;
-
-        if (InventoryManager.Current != null)
-        {
-            itemGO = InventoryManager.Current.ReturnSelectedItemInInventory();
-        }
+        GameObject itemGO = InventoryManager.Current != null
+            ? InventoryManager.Current.ReturnSelectedItemInInventory()
+            : null;
 
         if (itemGO != null)
         {
-            Item itemComponent = itemGO.GetComponent<Item>();
-
-            if (itemComponent != null && itemComponent.itemScriptable != null &&
-                itemComponent.itemScriptable.name == choreListItemName)
+            Item item = itemGO.GetComponent<Item>();
+            if (item != null && item.itemScriptable != null &&
+                item.itemScriptable.name == choreListItemName)
             {
-                choreListUI.SetActive(true);
+                choreListUI?.SetActive(true);
                 return;
             }
         }
 
-        choreListUI.SetActive(false);
+        choreListUI?.SetActive(false);
     }
 
     public void OnChoreCompleted(string choreName)
     {
         choreName = choreName.Trim();
 
-        // Ignore if already completed
         if (completedChores.Contains(choreName))
             return;
 
         completedChores.Add(choreName);
 
-        // Update existing chore line UI if visible
-        for (int i = 0; i < choreTexts.Count; i++)
+        // Reveal the next chore only if we haven’t reached the end
+        if (choresRevealed < choreSequence.Count)
         {
-            string existingText = choreSequence[i].Trim();
-            if (string.Equals(existingText, choreName, StringComparison.OrdinalIgnoreCase))
-            {
-                choreTexts[i].color = redColour;
-                choreTexts[i].text = $"<s>{existingText}</s>";
-            }
+            choresRevealed++;
         }
 
-        // Reveal the next chore in the sequence, regardless of order completed
-        if (choreTexts.Count < choreSequence.Count)
-        {
-            string nextChore = choreSequence[choreTexts.Count].Trim();
+        UpdateChoreListText();
+    }
 
-            if (completedChores.Contains(nextChore))
+    private void UpdateChoreListText()
+    {
+        if (choreListText == null) return;
+
+        string displayText = "";
+
+        for (int i = 0; i < choresRevealed; i++)
+        {
+            string chore = choreSequence[i].Trim();
+
+            if (completedChores.Contains(chore))
             {
-                AddChoreLine($"<s>{nextChore}</s>", redColour);
+                displayText += $"<color=#{ColorUtility.ToHtmlStringRGB(redColour)}><s>{chore}</s></color>\n";
             }
             else
             {
-                AddChoreLine(nextChore, greenColour);
+                displayText += $"<color=#{ColorUtility.ToHtmlStringRGB(greenColour)}>{chore}</color>\n";
             }
         }
+
+        choreListText.text = displayText;
     }
 
-    public int GetChoreCount()
-    {
-        return choreSequence.Count;
-    }
-
-    public int GetCompletedChoreCount()
-    {
-        return completedChores.Count;
-    }
-
-    private void AddChoreLine(string text, Color color)
-    {
-        Debug.Log("is line being added");
-        GameObject newLine = Instantiate(choreTextPrefab, choreTextContainer);
-        TextMeshProUGUI textComponent = newLine.GetComponent<TextMeshProUGUI>();
-        textComponent.text = text;
-        textComponent.color = color;
-        choreTexts.Add(textComponent);
-    }
+    public int GetChoreCount() => choreSequence.Count;
+    public int GetCompletedChoreCount() => completedChores.Count;
 }
