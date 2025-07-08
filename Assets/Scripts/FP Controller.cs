@@ -594,6 +594,12 @@ public class FPController : MonoBehaviour
                 DisableInput();
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
+                
+                Item item = target.GetComponent<Item>();
+                if (item != null && DialogueManager.Current != null)
+                {
+                    DialogueManager.Current.NewText(item.dialogueText);
+                }
             }
         }
 
