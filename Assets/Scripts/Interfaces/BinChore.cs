@@ -37,9 +37,9 @@ public class BinChore : ChoreBase
         // Toggle the bin bag collider
         if (binBagCollider != null)
             binBagCollider.enabled = isBinOpen;
-        if (PeripheralGameManager.Instance != null)
+        if (PeripheralGameManager.Current != null)
         {
-            PeripheralGameManager.Instance.RainStart();
+            PeripheralGameManager.Current.RainStart();
         }
         // Only reset triggers if bin is now closed
         if (!isBinOpen && animator != null)

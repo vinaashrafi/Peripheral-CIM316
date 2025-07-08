@@ -9,7 +9,7 @@ public class PopUpCameraFollow : MonoBehaviour
     void Start()
     {
         
-        playerCamera = PeripheralGameManager.Instance.returnFPController();
+        playerCamera = PeripheralGameManager.Current.returnFPController();
     }
 
     // Update is called once per frame
@@ -18,7 +18,7 @@ public class PopUpCameraFollow : MonoBehaviour
         gameObject.transform.localScale = new Vector3(1, 1, 1);
         if (playerCamera == null)
         {
-            playerCamera = PeripheralGameManager.Instance.returnFPController();
+            playerCamera = PeripheralGameManager.Current.returnFPController();
         }
         Vector3 direction = transform.position - playerCamera.transform.position;
         direction.y = 0;

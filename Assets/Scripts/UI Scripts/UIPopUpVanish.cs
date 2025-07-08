@@ -8,14 +8,14 @@ public class UIPopUpVanish : PopUpBase
 {
     public void Start()
     {
-        player = PeripheralGameManager.Instance.returnFPController();
+        player = PeripheralGameManager.Current.returnFPController();
     }
 
     public void Update()
     {
-        if (player == null)
+        if (player == null && PeripheralGameManager.Current != null)
         {
-            player = PeripheralGameManager.Instance.returnFPController();
+            player = PeripheralGameManager.Current.returnFPController();
         }
 
         GameObject interactable = player.ReturnInteractableFromRayCast();
