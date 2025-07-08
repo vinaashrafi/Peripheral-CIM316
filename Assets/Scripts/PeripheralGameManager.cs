@@ -88,5 +88,6 @@ public class PeripheralGameManager : MonoBehaviour
     public void StartWakeUp()
     {
         fade.StartFadeOut();
+        _player.EnableInput();
     }
 }
