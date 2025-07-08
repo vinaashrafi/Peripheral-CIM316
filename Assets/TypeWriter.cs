@@ -39,6 +39,7 @@ public class TypeWriter : MonoBehaviour
 
     public void StartCustomText(string TextToWrite)
     {
+        StopCoroutine(PrintText());
         textToWrite = TextToWrite;
         StartCoroutine(PrintText());
     }

@@ -8,7 +8,7 @@ public class PeripheralGameManager : MonoBehaviour
     private static PeripheralGameManager _current;
     public static PeripheralGameManager Current { get { return _current; } }
 
-    [SerializeField] private TextMeshProUGUI choreText;
+   
     [SerializeField] private TaskController taskController; // Assign in inspector
 
     [SerializeField] private bool allChoresDone = false; // For inspector view, read-only
@@ -70,7 +70,7 @@ public class PeripheralGameManager : MonoBehaviour
         if (allChoresDone)
         {
             Debug.Log("🎉 All chores completed! GO TO SLEEP");
-            StartSleep(); // Act on the flag being true
+            // StartSleep(); // Act on the flag being true
         }
     }
 
