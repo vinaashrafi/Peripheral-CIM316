@@ -20,11 +20,11 @@ public class TaskController : MonoBehaviour
     private void Awake()
     {
         if (choreListUI == null)
-            choreListUI = GameObject.Find("TaskListUI");
+            choreListUI = GameObject.Find("TaskText_UI");
 
         if (choreListText == null)
         {
-            GameObject textGO = GameObject.Find("TaskListText");
+            GameObject textGO = GameObject.Find("TaskText_UI");
             if (textGO != null)
                 choreListText = textGO.GetComponent<TextMeshProUGUI>();
         }
