@@ -128,6 +128,7 @@ public class TaskController : MonoBehaviour
 
     private void AddChoreLine(string text, Color color)
     {
+        Debug.Log("is line being added");
         GameObject newLine = Instantiate(choreTextPrefab, choreTextContainer);
         TextMeshProUGUI textComponent = newLine.GetComponent<TextMeshProUGUI>();
         textComponent.text = text;

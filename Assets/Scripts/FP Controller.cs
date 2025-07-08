@@ -186,7 +186,7 @@ public class FPController : MonoBehaviour
 
     void Start()
     {
-        PeripheralGameManager.Instance.SetFPController(this);
+        PeripheralGameManager.Current.SetFPController(this);
         if (inspectCamera != null)
         {
             inspectCamera.enabled = false; // Disable on start

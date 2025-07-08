@@ -9,6 +9,6 @@ public class BedController : MonoBehaviour, IInteractable
 
     public void StartFade()
     {
-        PeripheralGameManager.Instance.StartSleep();
+        PeripheralGameManager.Current.StartSleep();
     }
 }

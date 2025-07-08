@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class PeripheralGameManager : MonoBehaviour
 {
-    public static PeripheralGameManager Instance;
+
+    
+    private static PeripheralGameManager _current;
+    public static PeripheralGameManager Current { get { return _current; } }
 
     [SerializeField] private TextMeshProUGUI choreText;
     [SerializeField] private TaskController taskController; // Assign in inspector
@@ -14,15 +17,18 @@ public class PeripheralGameManager : MonoBehaviour
     public GameObject rain;
     public FPController _player;
     public FadeController fade;
-
+    
+    
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (_current != null && _current != this)
+        {
             Destroy(this.gameObject);
-        else
-            Instance = this;
+        } else {
+            _current = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
-
     private void OnEnable()
     {
         TaskEvents.OnChoreCompleted += HandleChoreComplete;
