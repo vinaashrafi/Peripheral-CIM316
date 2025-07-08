@@ -11,6 +11,10 @@ public class FadeController : MonoBehaviour
     public bool startFadeOn;
     public float _fadeSpeed;
 
+    //this is just for the one time sleeping cutscene to play once the fade in has completed.
+    public GameObject cutscene;
+
+    //DONT USE UNLESS ITS FOR THE BED, I HAVE MADE THIS A BED ONLY FADING FOR NOW BECAUSE OF THE NATURE OF ITS USE.
     public void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -49,10 +53,14 @@ public class FadeController : MonoBehaviour
             _timer += Time.deltaTime;
         }
         canvasGroup.alpha = fadeCurve.Evaluate(_timer/_fadeSpeed);
-        if (_timer > 1*_fadeSpeed || _timer < 0)
+        if (_timer > 1 * _fadeSpeed)
+        {
+            _isFading = false;
+            cutscene.SetActive(true);
+        }
+        if (_timer < 0)
         {
             _isFadingOut = false;
-            _isFading = false;
         }
     }
 }
