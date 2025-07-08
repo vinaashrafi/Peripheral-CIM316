@@ -1,6 +1,16 @@
+using System;
 using UnityEngine;
 
-public class DialogueHolder : MonoBehaviour
+public class DialogueHolder : DialogueBase
 {
-    public string dialogueString;
+    
+    public void OnTriggerEnter(Collider other)
+    {
+        if (hasBeenPlayed != true)
+        {
+            DialogueManager.Current.NewText(dialogueText);
+            hasBeenPlayed = true;
+        }
+        
+    }
 }

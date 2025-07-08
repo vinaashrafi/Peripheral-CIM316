@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BinChore : ChoreBase
 {
@@ -8,6 +9,7 @@ public class BinChore : ChoreBase
     public string closeTrigger = "CloseBin";
 
     public bool isBinOpen = false;
+    public bool binChoreCheck;
 
     public Collider binBagCollider; // Drag the bin bag collider here in the inspector
     
@@ -15,6 +17,7 @@ public class BinChore : ChoreBase
     public override void StartChore()
     {
         base.StartChore();
+       
         
         // bin bag collider starts disabled
         if (binBagCollider != null)
@@ -29,6 +32,7 @@ public class BinChore : ChoreBase
 
     public override void CompleteChore()
     {
+        binChoreCheck = true;
         base.CompleteChore();
 
         isBinOpen = !isBinOpen;
