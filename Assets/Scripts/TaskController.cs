@@ -10,7 +10,7 @@ public class TaskController : MonoBehaviour
     [SerializeField] private Transform choreTextContainer; // parent object that holds chore text lines
     [SerializeField] private GameObject choreTextPrefab;   // prefab with a TMP_Text component
 
-    [SerializeField] private List<string> choreSequence = new List<string> { "Take out the rubbish", "Wash Dishes", "Cat" };
+    [SerializeField] private List<string> choreSequence = new List<string> { "Take out the rubbish", "Wash Dishes", "Feed Cat" };
 
     [SerializeField]  private List<TextMeshProUGUI> choreTexts = new List<TextMeshProUGUI>();
     [SerializeField]   private HashSet<string> completedChores = new HashSet<string>();
@@ -57,7 +57,12 @@ public class TaskController : MonoBehaviour
 
     private void Update()
     {
-        GameObject itemGO = InventoryManager.Current.ReturnSelectedItemInInventory();
+        GameObject itemGO = null;
+
+        if (InventoryManager.Current != null)
+        {
+            itemGO = InventoryManager.Current.ReturnSelectedItemInInventory();
+        }
 
         if (itemGO != null)
         {
