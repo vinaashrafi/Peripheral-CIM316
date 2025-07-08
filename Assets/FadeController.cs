@@ -23,6 +23,7 @@ public class FadeController : MonoBehaviour
         if (startFadeOn)
         {
             _timer = 1f * _fadeSpeed;
+            _isFadingOut = true;
         }
         else
         {
@@ -45,6 +46,11 @@ public class FadeController : MonoBehaviour
     }
     public void Update()
     {
+        if (firstFadeOut)
+        {
+            cutscene2.SetActive(true);
+            firstFadeOut = false;
+        }
         if (_isFadingOut)
         {
             _timer -= Time.deltaTime;
@@ -55,10 +61,6 @@ public class FadeController : MonoBehaviour
             _timer += Time.deltaTime;
         }
         canvasGroup.alpha = fadeCurve.Evaluate(_timer/_fadeSpeed);
-        if (canvasGroup.alpha <= 0.85f && firstFadeOut)
-        {
-            cutscene2.SetActive(true);
-        }
         if (_timer > 1 * _fadeSpeed)
         {
             _isFading = false;
