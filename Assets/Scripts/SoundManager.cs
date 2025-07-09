@@ -4,41 +4,40 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    [Header("Sound Clips")]
-    public AudioClip doorOpenClip;
+    [Header("Sound Clips")] public AudioClip doorOpenClip;
     public AudioClip doorCloseClip;
 
-    [Header("Footstep Sounds")]
-    public AudioClip[] footstepClips;
-    
-    [Header("Curtain Sounds")]
-    public AudioClip curtainOpenClip;
+    [Header("Footstep Sounds")] public AudioClip[] footstepClips;
+
+    [Header("Curtain Sounds")] public AudioClip curtainOpenClip;
     public AudioClip curtainCloseClip;
 
-    [Header("Printer Sounds")]
-    public AudioClip printerClip;
-    
-    
-    [Header("Cat Food Sounds")]
-    public AudioClip catfoodClip;
-    
-    [Header("Computer / CCTV Sounds")]
-    public AudioClip computerOnClip;
+    [Header("Printer Sounds")] public AudioClip printerClip;
+
+
+    [Header("Cat Food Sounds")] public AudioClip catfoodClip;
+
+    [Header("Computer / CCTV Sounds")] public AudioClip computerOnClip;
     public AudioClip computerOffClip;
     public AudioClip cctvViewClip;
     public AudioClip SwitchCameraClip;
-    
-    [Header("Sink Sounds")]
-    public AudioClip sinkOnClip;
+
+    [Header("Sink Sounds")] public AudioClip sinkOnClip;
     public AudioClip sinkOffClip;
     private AudioSource sinkAudioSource;
-    
-    [Header("Audio Settings")]
-    public AudioSource audioSourcePrefab;
-    
+
+
+    private AudioSource rainAudioSource;
+    public AudioClip rainOnClip;
+    public AudioClip rainOffClip;
+
+    public AudioClip ThunderClip;
+
+    [Header("Audio Settings")] public AudioSource audioSourcePrefab;
+
     // Dedicated AudioSource for CCTV loop sound
     private AudioSource cctvAudioSource;
-    
+
     private void Awake()
     {
         // Basic Singleton
@@ -78,20 +77,23 @@ public class SoundManager : MonoBehaviour
         AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
         PlaySoundAtPosition(clip, position);
     }
+
     public void PlayCurtainSound(bool closing, Vector3 position)
     {
         AudioClip clipToPlay = closing ? curtainCloseClip : curtainOpenClip;
         PlaySoundAtPosition(clipToPlay, position);
     }
-    
+
     public void PlayPrinterSound(Vector3 position)
     {
         PlaySoundAtPosition(printerClip, position);
     }
+
     public void PlayComputerOnSound(Vector3 position)
     {
         PlaySoundAtPosition(computerOnClip, position);
     }
+
     public void PlayComputerOffSound(Vector3 position)
     {
         PlaySoundAtPosition(computerOffClip, position);
@@ -126,7 +128,6 @@ public class SoundManager : MonoBehaviour
             Debug.Log("CCTV sound stopped");
         }
     }
-    
 
 
     public void StartSinkLoopSound(Vector3 position)
@@ -152,9 +153,53 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+
+    // public void StartRainLoopSound()
+    // {
+    //     if (rainAudioSource == null && rainOnClip != null)
+    //     {
+    //         // Create a new AudioSource on the SoundManager (or use an existing one)
+    //         rainAudioSource = gameObject.AddComponent<AudioSource>();
+    //         rainAudioSource.clip = rainOnClip;
+    //         rainAudioSource.loop = true;
+    //         rainAudioSource.spatialBlend = 0f; // 2D sound
+    //         rainAudioSource.Play();
+    //         Debug.Log("Rain sound playing as 2D");
+    //     }
+    // }
+    public void StartRainLoopSound(Vector3 position) // from position
+    {
+        if (rainAudioSource == null && audioSourcePrefab != null && rainOnClip != null)
+        {
+            // Raise the sound by, for example, 10 units
+            position.y += 10f;
+            rainAudioSource = Instantiate(audioSourcePrefab, position, Quaternion.identity);
+            rainAudioSource.clip = rainOnClip;
+            rainAudioSource.loop = true;
+            rainAudioSource.Play();
+            Debug.Log("Rain sound playing");
+        }
+    }
+
+    public void PlayThunderSound(Vector3 position)
+    {
+        PlaySoundAtPosition(ThunderClip, position);
+    }
+
+    public void StopRainLoopSound()
+    {
+        if (rainAudioSource != null)
+        {
+            rainAudioSource.Stop();
+            Destroy(rainAudioSource.gameObject);
+            rainAudioSource = null;
+            Debug.Log("Rain sound stopped");
+        }
+    }
+
+
     public void PLayCatFoodSound(Vector3 position)
     {
         PlaySoundAtPosition(catfoodClip, position);
     }
-    
 }
