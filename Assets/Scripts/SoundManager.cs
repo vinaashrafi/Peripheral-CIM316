@@ -84,6 +84,26 @@ public class SoundManager : MonoBehaviour
         PlaySoundAtPosition(clipToPlay, position);
     }
 
+    
+
+    
+    public void PlaySoundAtPosition(AudioClip clip, Vector3 position, float volume = 1f)
+    {
+        if (clip == null) return;
+        AudioSource.PlayClipAtPoint(clip, position, volume);
+    }
+
+    public void PlaySoundGlobal(AudioClip clip, float volume = 1f)
+    {
+        if (clip == null) return;
+
+        AudioSource source = gameObject.AddComponent<AudioSource>();
+        source.clip = clip;
+        source.spatialBlend = 0f; // 2D sound
+        source.Play();
+        Destroy(source, clip.length);
+    }
+    
     public void PlayPrinterSound(Vector3 position)
     {
         PlaySoundAtPosition(printerClip, position);
