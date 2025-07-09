@@ -138,6 +138,9 @@ MonoBehaviour:
   scaleZ: 1
   scaleAmount: 0.3
   isAtClosedPosition: 1
+  openSound: {fileID: 8300000, guid: 162edc293539f904d95c8f3c13996cac, type: 3}
+  closeSound: {fileID: 8300000, guid: 20f1593fd32cec2488fd544cbc6531bd, type: 3}
+  playSoundAtWorldPosition: 1
 --- !u!1 &6261823702267496844
 GameObject:
   m_ObjectHideFlags: 0
