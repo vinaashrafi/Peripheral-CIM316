@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2622823031763525124}
+  - component: {fileID: 4650927242011494383}
+  - component: {fileID: 6480191213600946896}
+  - component: {fileID: 6383682078683834053}
   m_Layer: 0
   m_Name: coffePot
   m_TagString: Untagged
@@ -33,6 +36,72 @@ Transform:
   - {fileID: 7317562756131847406}
   m_Father: {fileID: 6925354457445852627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4650927242011494383
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582744431638800233}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.38038835, y: 0.23759054, z: 0.27866906}
+  m_Center: {x: -0.01, y: 0.11879481, z: -0.05}
+--- !u!54 &6480191213600946896
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582744431638800233}
+  serializedVersion: 4
+  m_Mass: 3
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6383682078683834053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582744431638800233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc1fb7736f1c26949acbaefe32b46555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: 
+  hasBeenPlayed: 0
+  itemScriptable: {fileID: 11400000, guid: cf5e2e1ef51c6464682f19a580088252, type: 2}
+  itemVisuals: {fileID: 0}
+  dropForce: 1
+  hasBeenDropped: 0
 --- !u!1 &1639680766950337766
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,9 +113,6 @@ GameObject:
   - component: {fileID: 5688907456093577876}
   - component: {fileID: 3232919242489172429}
   - component: {fileID: 5389568439378759679}
-  - component: {fileID: 25015998904119252}
-  - component: {fileID: 3892174677664093495}
-  - component: {fileID: 3391624369609600348}
   m_Layer: 0
   m_Name: coffePot_body
   m_TagString: Untagged
@@ -122,72 +188,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &25015998904119252
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639680766950337766}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.38038835, y: 0.23759054, z: 0.27866906}
-  m_Center: {x: 0.050859973, y: 0.11879481, z: 0.000000014901161}
---- !u!114 &3892174677664093495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639680766950337766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc1fb7736f1c26949acbaefe32b46555, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueText: 
-  hasBeenPlayed: 0
-  itemScriptable: {fileID: 11400000, guid: cf5e2e1ef51c6464682f19a580088252, type: 2}
-  itemVisuals: {fileID: 0}
-  dropForce: 1
-  hasBeenDropped: 0
---- !u!54 &3391624369609600348
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639680766950337766}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &3047000809792056964
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +199,6 @@ GameObject:
   - component: {fileID: 7317562756131847406}
   - component: {fileID: 2165921105127008014}
   - component: {fileID: 1060750096025599266}
-  - component: {fileID: 8383665695653687194}
   m_Layer: 0
   m_Name: coffePot_lid
   m_TagString: Untagged
@@ -275,27 +274,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8383665695653687194
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3047000809792056964}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.22888486, y: 0.020729644, z: 0.21753246}
-  m_Center: {x: -0.09314539, y: 0.00680562, z: 0.000011939555}
 --- !u!1 &7667135436887317128
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +298,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7667135436887317128}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.33, y: -0.024999976, z: -4.1073074}
   m_LocalScale: {x: 0.5703127, y: 0.5703127, z: 0.5703127}
   m_ConstrainProportionsScale: 0
