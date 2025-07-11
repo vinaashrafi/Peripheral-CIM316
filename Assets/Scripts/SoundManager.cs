@@ -30,8 +30,7 @@ public class SoundManager : MonoBehaviour
 
     [Header("Wind Sounds")]
     [SerializeField] private AudioClip windClip;
-    private AudioSource windAudioSource;
-    
+    [SerializeField] private AudioSource windAudioSource;
 
     private AudioSource rainAudioSource;
     public AudioClip rainOnClip;
@@ -249,7 +248,7 @@ public class SoundManager : MonoBehaviour
     
     public void PlayWindSound()
     {
-        if (rainAudioSource == null && windClip != null)
+        if (windAudioSource == null && windClip != null)
         {
             // Create a new AudioSource on the SoundManager (or use an existing one)
             windAudioSource = gameObject.AddComponent<AudioSource>();
